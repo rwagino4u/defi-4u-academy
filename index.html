@@ -3,7 +3,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>DeFi 4U Academy — V6.19</title>
+<title>DeFi 4U Academy — V6.20</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2579,6 +2579,444 @@
 .nav-tree .tree-node.depth-3 > .tree-head .tree-label.active,
 .nav-tree .tree-node.depth-4 > .tree-head .tree-label.active { color: #8fdcff !important; }
 .nav-tree .tree-node .tree-label:hover { color: #ffffff !important; }
+
+/* ===== V6.20 REDESIGN ===== */
+/* =============================================================
+   V6.20 — Bankless-style dark + gold academy home redesign
+   Scoped with .v620-* prefix so it doesn't collide with V6.19.
+   All original element IDs (#homeMeter, #homeProgress, #journeyCards,
+   #recentLesson, #quizSummary, #exportProgress, #importProgress,
+   #beginnerStart) are preserved — existing JS keeps working.
+   ============================================================= */
+:root {
+  --v620-gold: #d4af37;
+  --v620-gold-bright: #e8c866;
+  --v620-gold-dim: rgba(212, 175, 55, 0.15);
+  --v620-gold-border: rgba(212, 175, 55, 0.3);
+  --v620-bg-elev: #16161a;
+  --v620-bg-elev-hover: #1c1c22;
+  --v620-border-soft: rgba(255, 255, 255, 0.06);
+  --v620-text-dim: #5a5a64;
+}
+
+/* Overrides on the panel container itself */
+.academy-home-panel {
+  padding: 0 !important;
+  background: transparent;
+}
+
+/* ===== HERO ===== */
+.v620-hero {
+  padding: clamp(28px, 4vw, 56px) clamp(20px, 3vw, 40px) clamp(24px, 3vw, 40px);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.05), transparent 40%),
+    linear-gradient(180deg, rgba(13, 13, 15, 0.6) 0%, rgba(10, 10, 10, 0.2) 100%);
+  border: 1px solid var(--v620-border-soft);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.v620-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--v620-gold) !important;
+  padding: 6px 14px;
+  border: 1px solid var(--v620-gold-dim);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.05);
+  margin-bottom: 22px;
+}
+.v620-eyebrow .home-kicker {
+  color: var(--v620-gold) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.14em !important;
+}
+.v620-eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--v620-gold);
+  box-shadow: 0 0 8px var(--v620-gold);
+  animation: v620-pulse 2s ease-in-out infinite;
+}
+@keyframes v620-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.academy-home-panel .v620-hero h1 {
+  font-size: clamp(30px, 4vw, 46px) !important;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 16px !important;
+  letter-spacing: -0.03em;
+  max-width: 780px;
+}
+.v620-gold-text {
+  background: linear-gradient(135deg, var(--v620-gold), var(--v620-gold-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.academy-home-panel .v620-hero p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #a8b5c5;
+  margin: 0 0 28px !important;
+  max-width: 640px;
+}
+
+.v620-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 36px !important;
+}
+.v620-btn-primary,
+.home-actions .btn-primary.v620-btn-primary {
+  background: linear-gradient(135deg, var(--v620-gold), var(--v620-gold-bright)) !important;
+  color: #0a0a0a !important;
+  border: none !important;
+  padding: 14px 28px !important;
+  border-radius: 999px !important;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25) !important;
+}
+.v620-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35) !important;
+}
+.v620-btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--v620-border-soft);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, color .2s;
+}
+.v620-btn-secondary:hover {
+  border-color: var(--v620-gold);
+  background: rgba(212, 175, 55, 0.05);
+  color: #fff;
+}
+
+/* Hero stats row */
+.v620-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--v620-border-soft);
+  border: 1px solid var(--v620-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.v620-stat {
+  background: var(--v620-bg-elev);
+  padding: 20px 18px;
+}
+.v620-stat-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--v620-text-dim);
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.v620-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.v620-stat-value.gold { color: var(--v620-gold); }
+
+/* ===== SHARED SECTION BLOCK ===== */
+.v620-section-block {
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid var(--v620-border-soft);
+  border-radius: 20px;
+  background: rgba(11, 11, 13, 0.6);
+  margin-bottom: 20px;
+}
+.v620-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.academy-home-panel .v620-section-title {
+  font-size: 20px !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 !important;
+  color: var(--text);
+}
+.v620-section-meta {
+  font-size: 12px;
+  color: #7f8ba1;
+}
+
+/* ===== PROGRESS BLOCK ===== */
+.v620-progress-block .v620-progress-copy {
+  font-size: 14px;
+  color: #a8b5c5;
+  margin: 0 0 12px;
+}
+.academy-home-panel #homeMeter {
+  width: 100%;
+  height: 8px;
+  border: none;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--v620-bg-elev);
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  margin-bottom: 14px;
+}
+.academy-home-panel #homeMeter::-webkit-progress-bar {
+  background: var(--v620-bg-elev);
+  border-radius: 999px;
+}
+.academy-home-panel #homeMeter::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--v620-gold), var(--v620-gold-bright));
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+  transition: width .8s cubic-bezier(.4, 0, .2, 1);
+}
+.academy-home-panel #homeMeter::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--v620-gold), var(--v620-gold-bright));
+  border-radius: 999px;
+}
+.v620-progress-footnote {
+  font-size: 12px !important;
+  color: #7f8ba1 !important;
+  margin: 0 !important;
+  line-height: 1.5;
+}
+
+/* ===== MODULE CARDS (styling for #journeyCards output) ===== */
+.v620-modules-block .journey-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.v620-modules-block .journey-grid .journey-card {
+  background: var(--v620-bg-elev) !important;
+  border: 1px solid var(--v620-border-soft) !important;
+  border-radius: 16px !important;
+  padding: 26px 22px !important;
+  cursor: pointer;
+  transition: all .3s cubic-bezier(.4, 0, .2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 200px;
+  text-align: left !important;
+  color: var(--text) !important;
+  font-family: inherit;
+}
+.v620-modules-block .journey-grid .journey-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--v620-gold), transparent);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.v620-modules-block .journey-grid .journey-card:hover {
+  background: var(--v620-bg-elev-hover) !important;
+  border-color: var(--v620-gold-border) !important;
+  transform: translateY(-2px);
+}
+.v620-modules-block .journey-grid .journey-card:hover::before { opacity: 1; }
+
+.v620-modules-block .journey-grid .journey-card > span {
+  font-size: 11px !important;
+  letter-spacing: 0.14em !important;
+  color: var(--v620-gold) !important;
+  font-weight: 700 !important;
+  margin-bottom: 16px !important;
+  display: block;
+  text-transform: uppercase;
+}
+.v620-modules-block .journey-grid .journey-card h3 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 0 10px !important;
+  color: #fff !important;
+  line-height: 1.25;
+}
+.v620-modules-block .journey-grid .journey-card p {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: #a8b5c5 !important;
+  margin: 0 !important;
+  flex-grow: 1;
+}
+.v620-modules-block .journey-grid .journey-card strong {
+  font-size: 11px !important;
+  color: var(--v620-gold) !important;
+  margin-top: 12px !important;
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--v620-gold-dim);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.08);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ===== TWO-COLUMN PANEL ROW ===== */
+.v620-tworow {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
+  padding: 0 !important;
+  border: none;
+  background: transparent;
+}
+.v620-panel {
+  background: rgba(11, 11, 13, 0.6);
+  border: 1px solid var(--v620-border-soft);
+  border-radius: 20px;
+  padding: 28px;
+}
+.academy-home-panel .v620-panel-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin: 0 0 4px !important;
+  color: var(--text);
+}
+.v620-panel-sub {
+  font-size: 12px !important;
+  color: #7f8ba1 !important;
+  margin: 0 0 20px !important;
+}
+.v620-recent-btn {
+  width: 100%;
+  background: var(--v620-bg-elev) !important;
+  border: 1px solid var(--v620-border-soft) !important;
+  color: #a8b5c5 !important;
+  padding: 16px 18px !important;
+  border-radius: 12px !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left !important;
+  cursor: pointer;
+  transition: all .2s;
+}
+.v620-recent-btn:not(:disabled):hover {
+  border-color: var(--v620-gold-border) !important;
+  background: var(--v620-bg-elev-hover) !important;
+  color: #fff !important;
+}
+.v620-recent-btn:disabled { opacity: 0.7; cursor: default; }
+
+.v620-quiz-summary {
+  font-size: 13px;
+  color: #a8b5c5;
+  line-height: 1.6;
+  min-height: 60px;
+  padding: 14px 16px;
+  background: var(--v620-bg-elev);
+  border: 1px dashed var(--v620-border-soft);
+  border-radius: 12px;
+}
+.v620-quiz-summary .quiz-summary {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--v620-border-soft);
+}
+.v620-quiz-summary .quiz-summary:last-child { border-bottom: none; }
+.v620-quiz-summary button {
+  background: transparent;
+  border: none;
+  color: var(--v620-gold);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+}
+.v620-quiz-summary strong { color: #fff; margin-left: 8px; }
+
+/* ===== EXPORT BAR ===== */
+.v620-export-bar {
+  padding: 26px clamp(24px, 3vw, 32px);
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.04));
+  border: 1px solid var(--v620-border-soft);
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.v620-export-info h4 {
+  font-size: 15px !important;
+  margin: 0 0 4px !important;
+  font-weight: 700;
+  color: var(--text);
+}
+.v620-export-info p {
+  font-size: 12px !important;
+  color: #7f8ba1 !important;
+  margin: 0 !important;
+  line-height: 1.5;
+  max-width: 480px;
+}
+.v620-export-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.v620-btn-ghost {
+  background: transparent !important;
+  border: 1px solid var(--v620-border-soft) !important;
+  color: #a8b5c5 !important;
+  padding: 9px 16px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.v620-btn-ghost:hover {
+  border-color: var(--v620-gold) !important;
+  color: #fff !important;
+  background: rgba(212, 175, 55, 0.05) !important;
+}
+.v620-btn-ghost input[type="file"] {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .v620-modules-block .journey-grid { grid-template-columns: 1fr 1fr; }
+  .v620-tworow { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .v620-modules-block .journey-grid { grid-template-columns: 1fr; }
+  .v620-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .v620-hero-actions { flex-direction: column; align-items: stretch; }
+  .v620-btn-primary, .v620-btn-secondary { width: 100%; }
+}
 </style>
 <meta content="Learn DeFi fundamentals, explore an ecosystem case study, and choose your learning path. Education, not financial advice." name="description"/><meta content="#071019" name="theme-color"/><meta content="DeFi 4U Academy" property="og:title"/><meta content="Understand DeFi. Study a practical ecosystem. Choose your path." property="og:description"/><meta content="website" property="og:type"/><link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1c29'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='36' fill='%23b6efba'%3E4U%3C/text%3E%3C/svg%3E" rel="icon"/><style>[hidden]{display:none!important}
 .student-bar,.academy-home-panel,.education-risk,.sequence-controls,.student-notice{border:1px solid #294353;border-radius:16px;background:#0d1c29;padding:20px;margin:0 0 18px;color:#eaf3fc}
@@ -3000,6 +3438,7 @@ input,textarea,select{background-color:transparent}
 </style>
 <style>
 /* ---------- V6.19: Support pill + modal ---------- */
+/* V6.20: Bankless-style academy home redesign (see V6.20 REDESIGN section) */
 .d4u-support-pill{position:fixed;left:18px;bottom:18px;z-index:79990;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2f6bff,#31176f);color:#fff;border:1px solid rgba(79,140,255,.55);font-size:13px;font-weight:700;padding:11px 18px;border-radius:999px;box-shadow:0 14px 40px rgba(0,0,0,.45);cursor:pointer}
 .d4u-support-pill:hover{filter:brightness(1.15);transform:translateY(-1px)}
 .d4u-support-modal{position:fixed;inset:0;z-index:92000;display:flex;align-items:center;justify-content:center;background:rgba(4,7,14,.72);backdrop-filter:blur(4px);padding:20px}
@@ -3058,16 +3497,69 @@ input,textarea,select{background-color:transparent}
     </div>
 </aside>
 <main class="content"><noscript>Please enable JavaScript to use the Academy. No editor controls are available in the student file.</noscript><div class="student-bar"><button data-home="">Academy Home</button><button data-continue="">Continue Lesson →</button><label for="academySearch">Search Academy</label><input autocomplete="off" id="academySearch" placeholder="Find a lesson or topic…" type="search"/><div class="search-results" hidden="" id="searchResults"></div></div><div aria-live="polite" class="student-notice" id="studentNotice" role="status"></div><section class="academy-home-panel" id="academyHome">
-<span class="home-kicker">LEARN AT YOUR OWN PACE</span><h1>Welcome to DeFi 4U Academy</h1>
-<p>Understand the fundamentals. Explore a practical case study. Choose your next learning path.</p>
-<div class="home-actions"><button class="btn-primary" data-continue="">Continue Learning →</button><button id="beginnerStart">New here? Start with DeFi basics</button></div>
-<h2>Your progress</h2><p id="homeProgress"></p><progress aria-label="Main course progress" id="homeMeter" max="1" value="0"></progress>
-<p>Progress is stored in this browser. Optional deep dives, resources and support do not block completion.</p>
+<!-- ===== HERO ===== -->
+<div class="v620-hero">
+<div class="v620-eyebrow"><span class="v620-eyebrow-dot"></span><span class="home-kicker">LEARN AT YOUR OWN PACE</span></div>
+<h1>Master DeFi. <span class="v620-gold-text">Safely.</span><br/>From zero to your first transaction.</h1>
+<p>Understand the fundamentals. Explore a real-world case study. Choose your next path — all in one focused academy built for serious beginners.</p>
+<div class="home-actions v620-hero-actions">
+<button class="btn-primary v620-btn-primary" data-continue="">Continue Learning →</button>
+<button class="v620-btn-secondary" id="beginnerStart">New here? Start with DeFi basics</button>
+</div>
+<!-- Hero stat strip (visual only — sidebar remains source of truth) -->
+<div class="v620-stats-row" aria-hidden="true">
+<div class="v620-stat"><div class="v620-stat-label">Overall Progress</div><div class="v620-stat-value gold" id="v620HeroPercent">0%</div></div>
+<div class="v620-stat"><div class="v620-stat-label">Steps Completed</div><div class="v620-stat-value" id="v620HeroSteps">0 / 30</div></div>
+<div class="v620-stat"><div class="v620-stat-label">Current Module</div><div class="v620-stat-value" id="v620HeroCurrent">—</div></div>
+<div class="v620-stat"><div class="v620-stat-label">Modules</div><div class="v620-stat-value">3</div></div>
+</div>
+</div>
+
+<!-- ===== YOUR JOURNEY (progress bar) ===== -->
+<div class="v620-section-block v620-progress-block">
+<div class="v620-section-header">
+<h2 class="v620-section-title">Your progress</h2>
+<span class="v620-section-meta">Saved locally in this browser</span>
+</div>
+<p id="homeProgress" class="v620-progress-copy"></p>
+<progress aria-label="Main course progress" id="homeMeter" max="1" value="0"></progress>
+<p class="v620-progress-footnote">Progress is stored in this browser. Optional deep dives, resources and support do not block completion.</p>
+</div>
+
+<!-- ===== MODULE CARDS (rendered by existing JS into #journeyCards) ===== -->
+<div class="v620-section-block v620-modules-block">
+<div class="v620-section-header">
+<h2 class="v620-section-title">Course modules</h2>
+<span class="v620-section-meta">3 modules · Self-paced</span>
+</div>
 <div class="journey-grid" id="journeyCards"></div>
-<h2>Recently viewed</h2><button disabled="" id="recentLesson">No lessons viewed yet</button>
-<h2>Quiz results &amp; review</h2><div id="quizSummary"></div>
-<h2>Take your progress with you</h2><p>Export a backup, then import it on another device using this same course version. This is manual transfer, not account sync.</p>
-<div class="progress-tools"><button id="exportProgress">Export Progress</button><label>Import Progress <input accept="application/json,.json" id="importProgress" type="file"/></label></div>
+</div>
+
+<!-- ===== RECENT + QUIZ (two-column) ===== -->
+<div class="v620-section-block v620-tworow">
+<div class="v620-panel">
+<h3 class="v620-panel-title">Recently viewed</h3>
+<p class="v620-panel-sub">Pick up where you left off</p>
+<button disabled="" id="recentLesson" class="v620-recent-btn">No lessons viewed yet</button>
+</div>
+<div class="v620-panel">
+<h3 class="v620-panel-title">Quiz results &amp; review</h3>
+<p class="v620-panel-sub">Track mastery and revisit missed questions</p>
+<div id="quizSummary" class="v620-quiz-summary"></div>
+</div>
+</div>
+
+<!-- ===== EXPORT BAR ===== -->
+<div class="v620-export-bar">
+<div class="v620-export-info">
+<h4>Take your progress with you</h4>
+<p>Export a backup, then import it on another device using this same course version. This is manual transfer, not account sync.</p>
+</div>
+<div class="progress-tools v620-export-actions">
+<button id="exportProgress" class="v620-btn-ghost">↓ Export Progress</button>
+<label class="v620-btn-ghost">↑ Import Progress <input accept="application/json,.json" id="importProgress" type="file"/></label>
+</div>
+</div>
 </section><div hidden="" id="lessonView"><div class="resource-status" hidden="" id="resourceStatus"></div><div class="module-completion" hidden="" id="moduleCompletion"></div>
 <div class="content-menu-toolbar">
 <button class="content-menu-btn" id="contentMenuBtn" type="button">☰ Open / Close Side Menu</button>
@@ -17569,4 +18061,41 @@ $('d4u5Admin').addEventListener('change', function(ev){
 })();
 </script>
 
+
+<script>
+/* V6.20 — mirror sidebar progress into hero stat strip */
+(function(){
+  function syncHeroStats(){
+    try {
+      var pct = document.getElementById('overallProgressText');
+      var cnt = document.getElementById('overallProgressCount');
+      var cur = document.getElementById('sidebarCurrentNode');
+      var heroPct = document.getElementById('v620HeroPercent');
+      var heroSteps = document.getElementById('v620HeroSteps');
+      var heroCur = document.getElementById('v620HeroCurrent');
+      if (heroPct && pct) heroPct.textContent = (pct.textContent || '0%').trim();
+      if (heroSteps && cnt) heroSteps.textContent = (cnt.textContent || '0 / 30 complete').replace(' complete','').trim();
+      if (heroCur && cur) {
+        var t = (cur.textContent || '').replace('Current page:','').trim();
+        heroCur.textContent = t || '—';
+      }
+    } catch(e) { /* no-op */ }
+  }
+  // Initial sync + observe changes to the sidebar progress text
+  document.addEventListener('DOMContentLoaded', function(){
+    syncHeroStats();
+    var target = document.getElementById('overallProgressText');
+    if (target && 'MutationObserver' in window) {
+      new MutationObserver(syncHeroStats).observe(target, {childList:true, characterData:true, subtree:true});
+    }
+    var target2 = document.getElementById('sidebarCurrentNode');
+    if (target2 && 'MutationObserver' in window) {
+      new MutationObserver(syncHeroStats).observe(target2, {childList:true, characterData:true, subtree:true});
+    }
+    // Also poll once a second as a safety net (cheap)
+    setInterval(syncHeroStats, 1500);
+  });
+})();
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
 </body></html>
