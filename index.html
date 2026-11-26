@@ -7620,7 +7620,7 @@ input,textarea,select{background-color:transparent}
                                     }
                               ],
                               "coverCaption": "A short checkpoint to make sure the learner really understood the foundations before moving into the case-project module.",
-                              "videoCopy": "Module 1 coach recap before the 18-question knowledge check.",
+                              "videoCopy": "Module 1 coach recap before the three-question knowledge check.",
                               "bodySections": [
                                     {
                                           "heading": "This is not a memory test",
@@ -16205,7 +16205,7 @@ input,textarea,select{background-color:transparent}
       node.children.forEach(child => syncLevels(child, level + 1));
     }
     function renderQuiz(node) {
-      node = {...node, quiz: (node.quiz || []).slice(0,5)};
+      node = {...node, quiz: (node.quiz || []).slice(0,3)};
       const panel = document.getElementById('quizPanel');
       const list = document.getElementById('quizList');
       const result = document.getElementById('quizResult');
@@ -16227,7 +16227,7 @@ input,textarea,select{background-color:transparent}
       if (quizHeading) quizHeading.textContent = quizCount === 1 ? 'Quick Check' : 'Module Knowledge Check';
       if (quizIntro) quizIntro.textContent = quizCount === 1
         ? 'One simple question to make sure the key idea is clear before you continue.'
-        : `Complete this ${quizCount}-question check to confirm the main ideas before moving on.`;
+        : `Ready for a mini challenge? Answer ${quizCount} questions, learn from the feedback, and keep moving!`;
       if (quizBadge) quizBadge.textContent = `${quizCount} Question${quizCount === 1 ? '' : 's'}`;
       if (quizButton) quizButton.textContent = quizCount === 1 ? 'Check Answer' : 'Reveal Score';
       renderList(list, node.quiz.map((q, index) => ({ ...q, index })), item => `
@@ -16275,7 +16275,7 @@ input,textarea,select{background-color:transparent}
         });
         result.style.display = 'block';
         progressState.quizzes=progressState.quizzes||{};progressState.quizzes[currentPath]={score,total:node.quiz.length,missed};saveProgressState();updateLearningJourney(currentPath);
-        result.innerHTML = `<strong>Your score: ${score}/${node.quiz.length}</strong><p>${missed.length ? 'Review the explanations above, then try again.' : 'All answers correct. Well done.'}</p><button class="action-btn" id="retakeQuiz">Retake Quiz</button>`;
+        result.innerHTML = `<strong>Your score: ${score}/${node.quiz.length}</strong><p>${missed.length ? 'Every attempt helps you learn. Review the feedback and try again whenever you like.' : 'Perfect score! You mastered this challenge.'}</p><button class="action-btn" id="retakeQuiz">Retake Quiz</button>`;
         document.getElementById('retakeQuiz').onclick=()=>renderQuiz(getNodeByPath(currentPath));
         const passMark = Math.max(1, Math.ceil(node.quiz.length * 0.6));
         const passed = score >= passMark, perfect = score === node.quiz.length;
