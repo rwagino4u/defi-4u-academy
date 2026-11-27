@@ -3456,6 +3456,27 @@ input,textarea,select{background-color:transparent}
 .d4u-support-note{margin:14px 0 0;color:#cfe4ff;font-size:12.5px;border-top:1px solid rgba(148,163,184,.2);padding-top:12px}
 @media(max-width:560px){.d4u-support-pill{left:12px;bottom:12px;padding:9px 14px;font-size:12px}}
 </style>
+
+<style id="d4u-beginner-style">
+body.d4u-visual-lesson #lessonView .video-body,body.d4u-visual-lesson #d4uAltVideoCard,body.d4u-visual-lesson #externalVideoFallback,body.d4u-visual-lesson #externalVideoNote{display:none!important}
+body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:none!important}
+.d4u-visual-box{margin:12px;border:1px solid #40536b;border-radius:16px;overflow:hidden;background:#0a1424;color:#fff}
+.d4u-visual-screen{min-height:260px;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:24px;background:radial-gradient(ellipse at top right,#243c59,#0a1424 70%)}
+.d4u-visual-brand{font-size:11px;font-weight:800;letter-spacing:2px;color:#f4cd7c}
+.d4u-visual-steps{display:flex;gap:8px;flex-wrap:wrap}
+.d4u-visual-step{font-size:12px;padding:7px 10px;border-radius:7px;border:1px solid #42536c;color:#afc0d8;background:#14243b}
+.d4u-visual-step.active{color:#101a2b;background:#f4cd7c;font-weight:800}
+.d4u-visual-scene{animation:d4uSceneIn .45s ease-out}
+@keyframes d4uSceneIn{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+.d4u-visual-heading{font-size:clamp(20px,3vw,30px);font-weight:800;color:white;margin:0}
+.d4u-visual-caption{font-size:clamp(15px,2vw,19px);line-height:1.55;margin:10px 0 0;max-width:58ch;color:#e0eafb}
+.d4u-visual-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border-top:1px solid #40536b}
+.d4u-visual-controls button{background:#162943;border:1px solid #526a86;border-radius:8px;padding:8px 12px;color:white;cursor:pointer;font-size:13px}
+.d4u-visual-controls button:first-child{background:#f4cd7c;color:#101a2b;font-weight:800}
+.d4u-visual-controls progress{flex:1;min-width:70px;accent-color:#f4cd7c}
+.d4u-visual-note{font-size:12px;color:#afc0d8;margin:0;padding:0 12px 12px}
+@media(prefers-reduced-motion:reduce){.d4u-visual-scene{animation:none}}
+</style>
 </head>
 <body class="">
 <div class="menu-overlay" id="menuOverlay"></div>
@@ -15839,7 +15860,27 @@ input,textarea,select{background-color:transparent}
     "closing": "Match your question to the right channel — urgent, general, community, or scheduled — and you will get help faster."
 };
     const TREE_STORAGE_KEY = 'defi4u-academy-final-user-edited';
-    const D4U_TREE_VERSION = 19;
+    
+    // Module 1 beginner edition. Keep original navigation paths and quiz data intact.
+    const D4U_BEGINNER_SCENES = [["0.0","Welcome|You do not need crypto or a wallet to begin.|Learn|Watch the short visual lessons, read the examples and try the quizzes.|Start safely|Practise with imaginary balances before considering real money."],["0.1","Understand|DeFi means financial services built with blockchain programs.|Explore|Learn how wallets, exchanges, stablecoins and lending fit together.|Stay safe|Research risks before deciding whether to use any financial service."],["0.1.0","Money|Finance helps people save, pay and borrow.|Blockchain|A shared ledger records transactions, and smart contracts run rules.|Build confidence|Learn what wallets and stablecoins do before interacting with DeFi."],["0.1.0.0","Finance|Money moves between people and businesses.|Blockchain|A network agrees on a shared record of transactions.|DeFi|Blockchain programs can support financial services such as trades and loans."],["0.1.0.0.0","Save and pay|Imagine you have $100, spend $20 and save $80.|Borrow and lend|A borrower receives money and agrees to repay it, often with interest.|Connect the ideas|DeFi offers some similar services through blockchain programs."],["0.1.0.0.1","A shared notebook|Imagine several people keeping identical transaction records.|Verify|A network checks new entries according to its rules.|Remember|Records are difficult to alter, but a blockchain does not guarantee that a claim is true."],["0.1.0.0.2","Ethereum|Ethereum is a blockchain that runs programs called smart contracts.|ETH|Its native asset, ether, pays network fees and helps secure the network.|Check the network|Wallets interact with applications on Ethereum and other networks. Confirm which one you are using."],["0.1.0.0.3","Traditional finance|A bank or broker usually operates the service.|DeFi|A wallet can interact with smart contracts to trade or lend assets.|The trade-off|Access can be open, but bugs, scams and mistakes may lead to irreversible losses."],["0.1.0.1","Your wallet|A wallet helps manage keys that control blockchain assets.|Your secrets|Keep private keys and recovery phrases private and offline.|Your decisions|Read every request before signing. Connecting is not the same as approving a transaction."],["0.1.0.1.0","Digital keychain|A wallet manages keys to assets recorded on a blockchain.|Two approaches|A self-custody wallet leaves key responsibility with you; a custodial service manages keys for you.|Start safely|Use official downloads and practise on a test network."],["0.1.0.1.1","Public address|An address can usually be shared to receive assets.|Private key|A private key authorizes actions. A recovery phrase can regenerate wallet keys.|Protect access|Never enter recovery words into a website or share them with support."],["0.1.0.1.2","Connect|An app may request your public address and network.|Review|Signing or approving tokens can grant more power than connecting.|Stop if unsure|Check the website and reject requests you do not understand."],["0.1.0.1.3","Fake support|Scammers imitate staff, promise gifts or ask you to verify your wallet.|Verify independently|Open the official site yourself and check the request.|Protect your keys|Never reveal recovery phrases. Stop when pressured."],["0.1.0.2","The target|Stablecoins aim to track a reference price such as one dollar.|Different designs|Some rely on reserves, some on crypto collateral and some on algorithms.|Risk remains|A stablecoin can lose its peg. Research reserves and redemption rules."],["0.1.0.2.0","Price target|A dollar stablecoin aims to stay near $1.|Example|Ten stablecoins may be worth about $10 while the peg holds.|Not guaranteed|A stablecoin can fall below its target and is not automatically an insured bank deposit."],["0.1.0.2.1","Fiat-backed|An issuer may hold cash and other reserves to support redemption.|Crypto-backed|A protocol holds crypto collateral, often worth more than the tokens issued.|Algorithmic|Rules and incentives try to maintain the price, but can fail severely."],["0.1.0.2.2","Useful|Stablecoins help quote prices and transfer value on-chain.|Depegging|A token targeting $1 could trade at $0.90 or less.|Check the risks|Review reserve assets, redemption, liquidity and issuer or protocol risk."],["0.1.1","Trade|Exchanges let users swap tokens.|Participate|Some protocols support liquidity, staking, lending and borrowing.|Compare the risks|Fees, price changes, bugs and liquidation can outweigh rewards."],["0.1.1.0","Choose an app|Centralized and decentralized exchanges handle trades differently.|Read the quote|Check the expected amount, fees, price impact and network.|Practise first|Use a simulation or testnet. Do not send funds just to follow a lesson."],["0.1.1.0.0","Centralized exchange|A company operates the platform and often holds customer assets.|Decentralized exchange|A wallet interacts with smart contracts to exchange tokens.|Compare|Consider custody, fees, liquidity, security and applicable restrictions."],["0.1.1.0.1","A dApp|A decentralized application uses blockchain programs for some functions.|Example|A swap app can request a wallet signature to trade tokens.|Check control|Interfaces, admin keys and other services may still be centralized."],["0.1.1.0.2","Pick tokens|Imagine swapping ten units of token A for token B.|Read the quote|The app shows estimated output, fees and minimum received.|Confirm carefully|Check addresses, network and permissions. Cancel if unsure."],["0.1.1.0.3","Gas fee|A network may charge to process a transaction.|Slippage|The actual trade price can differ from the expected price.|Price impact|Large trades can move a pool price. Check minimum received and total fees."],["0.1.1.1","Liquidity|A pool holds assets people can trade against.|Pricing|An automated market maker uses rules to calculate an exchange price.|Risk|Pool balances and asset prices change. Liquidity providers can lose money."],["0.1.1.1.0","Shared pool|Imagine a pool holding token A and token B.|Trade|A trader adds one token and receives another under pricing rules.|Providers|Providers may earn fees but face price, contract and other risks."],["0.1.1.1.1","Automatic pricing|Many AMMs calculate prices using mathematical rules rather than an order book.|Example|As traders remove token B, it may become more expensive relative to token A.|Trade-offs|Low liquidity and large trades can create significant price impact."],["0.1.1.2","Staking|Some networks reward participants for helping secure a blockchain.|Farming|Some protocols offer rewards for supplying assets or other activities.|Risk first|Rates and prices change. Fees, locks and contract failures can cause losses."],["0.1.1.2.0","Network security|Proof-of-stake networks use staked assets to help validate transactions.|Rewards|Participants may earn rewards under network rules.|Risks|Prices may fall, withdrawals may be delayed and validators may face penalties."],["0.1.1.2.1","Supply assets|Yield farming describes strategies seeking rewards from DeFi protocols.|Example|A user supplies liquidity and may receive fees or incentive tokens.|Net outcome|Quoted rates are not guarantees. Account for costs, price changes and risks."],["0.1.1.2.2","Incentives|Some projects distribute tokens to attract liquidity providers.|Changing rewards|Rewards can decrease or lose value when programs change.|Check the source|Understand who funds rewards and how withdrawals work. High rates do not prove safety."],["0.1.1.2.3","Two choices|Hold two tokens in a wallet or supply them to a liquidity pool.|Price changes|As relative prices move, the pool changes your token mix. Its value can lag simple holding.|Net result|Fees may not offset the difference. A loss can become permanent when withdrawing."],["0.1.1.3","Supply|Lenders provide assets and may earn variable interest.|Borrow|Borrowers often pledge collateral worth more than the loan.|Manage risk|Insufficient collateral may trigger liquidation. Lenders can also lose money."],["0.1.1.3.0","Lending pool|A protocol accepts supplied assets from participants.|Borrowing|Eligible borrowers access assets under collateral and interest rules.|Risks|Rates, liquidity, token prices and bugs affect returns and withdrawals."],["0.1.1.3.1","Aave|Aave is an example of a DeFi lending protocol.|How it works|Users may supply supported assets or borrow against eligible collateral.|Explore safely|Study official documentation. Rates and collateral rules change."],["0.1.1.3.2","Collateral|Imagine pledging assets worth $150 to borrow $75. This is only an example.|Price changes|A fall in collateral value makes the position riskier.|Monitor|Liquidation thresholds depend on the protocol. Understand them before borrowing."],["0.1.1.3.3","Liquidation|If collateral becomes insufficient, some may be sold or transferred to repay debt.|Flash loan|Some protocols allow borrowing and repayment in one transaction; failure reverts it.|Beginner rule|Avoid leverage and complex strategies until you understand the risks."],["0.1.1.4","Governance|Some protocols let participants propose and vote on changes.|Real-world assets|Tokens may represent claims linked to off-chain assets.|Keep learning|Check current documentation. A token alone does not prove ownership."],["0.1.1.4.0","DAO|A decentralized autonomous organization uses rules and collective decision processes.|Voting|Participants may vote on upgrades or treasury spending.|Check power|Voting can be concentrated and admin controls may exist."],["0.1.1.4.1","Real-world asset|Imagine a bond or a property with economic rights represented digitally.|Tokenization|A token may represent a claim under an issuer and legal structure.|Verify rights|Check ownership, custody, redemption, restrictions and issuer risk."],["0.1.1.4.2","First blockchains|Bitcoin introduced a widely used decentralized transaction ledger.|Programmable money|Ethereum and other networks enabled smart-contract applications.|Today|DeFi continues to evolve. Newer does not automatically mean safer."],["0.1.2","Protect yourself|Recognize phishing, unsafe approvals and contract risks.|Research|Use official documentation, explorers and independent data.|Decide independently|If you cannot explain how something works or fails, do not put money into it."],["0.1.2.0","Recognize scams|Fake websites and messages try to rush you into granting access.|Technical risk|Even legitimate protocols can fail due to bugs or poor design.|Build a routine|Verify first, practise safely and never reveal your recovery phrase."],["0.1.2.0.0","Suspicious message|Someone offers a reward and sends a wallet connection link.|Warning sign|The site asks for recovery words or unexpected approvals.|What to do|Close the link and verify official sources. Report suspected scams."],["0.1.2.0.1","Code with money|Smart contracts run code that may control valuable assets.|Failure modes|Bugs, malicious upgrades, bad price feeds and poor design can cause losses.|Reduce exposure|Check audit scope and permissions. Audits cannot guarantee safety."],["0.1.2.0.2","Understand|Explain the protocol and where rewards come from.|Verify|Check contracts, controls, audits, liquidity, fees and independent warnings.|Decide|Consider the worst plausible outcome. There is no obligation to invest."],["0.1.2.1","Read the market|Market trackers show prices, volume and other metrics.|Read the chain|Explorers help verify transaction status, addresses and contracts.|Build evidence|Cross-check claims with independent sources and record unanswered questions."],["0.1.2.1.0","CoinGecko|A market-data service provides token prices and market information.|DeFiLlama|A DeFi analytics service tracks metrics such as total value locked.|Interpret carefully|Metrics can be incomplete or change with prices. High TVL is not proof of safety."],["0.1.2.1.1","Etherscan|A public explorer can show Ethereum transactions, addresses and contracts.|Tokenomics|Study supply, issuance, vesting, distribution and uses.|Verify|Use the correct network and official contract address; names are not unique."],["0.1.2.1.2","Define the question|What is the product, what do I own and what can go wrong?|Check sources|Compare official documents with independent data and risks.|Decide slowly|Wait or walk away if key questions remain unanswered."],["0.1.3","Review|Explain DeFi, wallets, stablecoins, exchanges and lending in your own words.|Check understanding|Answer the knowledge questions and read the explanations.|Next step|Continue to case studies when you understand the basic risks. No investment is required."]];
+    for (const [path, raw] of D4U_BEGINNER_SCENES) {
+      let page = defaultTree;
+      for (const ix of path.split('.').slice(1)) page = page.children[Number(ix)];
+      const a=raw.split('|');
+      const scenes=[0,2,4].map(i=>({title:a[i],text:a[i+1]}));
+      page.d4uVisualScenes=scenes;
+      page.videoEnabled=true;
+      page.summary=scenes[0].text;
+      page.learn=scenes.map(s=>s.title+': '+s.text);
+      page.keyTakeaways=[scenes[2].text];
+      page.bodySections=scenes.map(s=>({heading:s.title,text:s.text}));
+      page.videoScript=scenes.map(s=>s.text).join(' ');
+      page.videoDraftScript=page.videoScript;
+      page.visualIdeas=[];
+      page.compareVideos=[];
+    }
+
+    const D4U_TREE_VERSION = 20;
     window.__D4U_TREE_VERSION = D4U_TREE_VERSION;
     let tree = deepClone(defaultTree);
     try {
@@ -16335,6 +16376,7 @@ input,textarea,select{background-color:transparent}
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
 
+      if(window.d4uStopVisual)window.d4uStopVisual();
       currentPath = path;
       const parts = path.split('.');
       let rolling = '0';
@@ -16909,7 +16951,8 @@ input,textarea,select{background-color:transparent}
       return state;
     }
     function showHome() {
-      document.body.classList.remove('landing-video-mode');
+      if(window.d4uStopVisual)window.d4uStopVisual();
+      document.body.classList.remove('landing-video-mode','d4u-visual-lesson');
       updateSidebarStats();
       document.body.classList.add('academy-home');
       document.getElementById('lessonView').hidden=true;document.getElementById('academyHome').hidden=false;
@@ -17081,6 +17124,7 @@ input,textarea,select{background-color:transparent}
       }
       document.querySelector('#lessonView .video-body').hidden=!(linked || (node.audioEnabled!==false && (hasScript || node.attachedAudio || (window.__coachAudio||{})[path])));
       if(window.d4uSyncCoach)window.d4uSyncCoach();
+      if(window.d4uRenderVisual)window.d4uRenderVisual(node,path);
       if(!landing){document.querySelector('#lessonView .right-rail .rail-card h3').textContent='Your Progress';return;}
 
       alignLandingRail();
@@ -17340,6 +17384,7 @@ input,textarea,select{background-color:transparent}
     btn.onclick = () => {
       if (ttsOn) { stopAll(); ttsState(false); return; }
       const node = (typeof getNodeByPath === 'function') ? getNodeByPath(currentPath) : null;
+      if(node && node.d4uVisualScenes && !node.attachedAudio){ if(typeof announce==='function')announce('Adam narration is not yet available for this lesson. Use the visual explainer and captions.'); return; }
       const text = (node && node.videoScript) || '';
       const audioSrc = (node && node.attachedAudio) ? node.attachedAudio : (window.__coachAudio ? window.__coachAudio[currentPath] : null);
       if (audioSrc) {
@@ -17378,8 +17423,9 @@ if (audioBtn) audioBtn.onclick = btn.onclick;
     const audioOn = !node || node.audioEnabled !== false;
     if (ttsOn) { stopAll(); ttsState(false); }
     const vb = document.querySelector('#lessonView .video-body');
-    btn.hidden = !hasScript || !audioOn || (vb && vb.hidden);
-    if (audioBtn) audioBtn.hidden = !hasScript || !audioOn;
+    const readyAudio = !!(node && node.attachedAudio);
+    btn.hidden = !hasScript || !audioOn || (vb && vb.hidden) || (!!(node&&node.d4uVisualScenes)&&!readyAudio);
+    if (audioBtn) audioBtn.hidden = !hasScript || !audioOn || (!!(node&&node.d4uVisualScenes)&&!readyAudio);
     var tsBtn = document.getElementById('d4uTranscriptBtn');
     if (tsBtn) { tsBtn.hidden = !hasScript || !audioOn; tsBtn.classList.remove('active'); }
     refreshLabel();
@@ -18100,4 +18146,46 @@ $('d4u5Admin').addEventListener('change', function(ev){
 })();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+
+<script id="d4u-beginner-player">
+(function(){
+ let timer=null,player=null,audio=null,index=0,playing=false,scenes=[];
+ function pause(){if(timer){clearTimeout(timer);timer=null}playing=false;if(audio)audio.pause();if(player){player.querySelector('[data-play]').textContent='▶ Play';}}
+ window.d4uStopVisual=function(){pause();if(audio){audio.pause();audio=null}if(player){player.remove();player=null}};
+ function draw(){
+   if(!player)return;
+   const active=scenes[index];
+   player.querySelector('.d4u-visual-heading').textContent=active.title;
+   player.querySelector('.d4u-visual-caption').textContent=active.text;
+   player.querySelectorAll('.d4u-visual-step').forEach((el,i)=>el.classList.toggle('active',i===index));
+   player.querySelector('progress').value=index+1;
+   player.querySelector('[data-count]').textContent=(index+1)+' / '+scenes.length;
+   const view=player.querySelector('.d4u-visual-scene');view.classList.remove('d4u-visual-scene');void view.offsetWidth;view.classList.add('d4u-visual-scene');
+ }
+ function schedule(){
+   if(!playing)return;
+   const delay=Math.max(5000,Math.ceil(scenes[index].text.split(/\s+/).length/2.2)*1000);
+   timer=setTimeout(()=>{if(index<scenes.length-1){index++;draw();schedule()}else{pause();if(player)player.querySelector('[data-play]').textContent='↻ Replay'}},delay);
+ }
+ window.d4uRenderVisual=function(node,path){
+   window.d4uStopVisual();
+   const enabled=!!(node&&node.d4uVisualScenes&&node.videoEnabled!==false);
+   document.body.classList.toggle('d4u-visual-lesson',enabled);
+   if(!enabled)return;
+   scenes=node.d4uVisualScenes;index=0;
+   const wrap=document.querySelector('#lessonView .video-window');if(!wrap)return;
+   player=document.createElement('div');player.className='d4u-visual-box';
+   player.innerHTML='<div class="d4u-visual-screen"><div class="d4u-visual-brand">DEFI4U ACADEMY · VISUAL LESSON</div><div class="d4u-visual-steps"></div><div class="d4u-visual-scene" aria-live="polite"><h3 class="d4u-visual-heading"></h3><p class="d4u-visual-caption"></p></div></div><div class="d4u-visual-controls"><button type="button" data-play>▶ Play</button><button type="button" data-prev aria-label="Previous scene">‹</button><button type="button" data-next aria-label="Next scene">›</button><progress aria-label="Scene progress" max="'+scenes.length+'" value="1"></progress><span data-count></span></div><p class="d4u-visual-note">Self-paced animated explainer with captions · Adam narration in production.</p>';
+   const toolbar=wrap.querySelector('.video-toolbar');
+   if(toolbar)toolbar.insertAdjacentElement('afterend',player);else wrap.prepend(player);
+   scenes.forEach((s,i)=>{let el=document.createElement('button');el.type='button';el.className='d4u-visual-step';el.textContent=(i+1)+'. '+s.title;el.addEventListener('click',()=>{pause();index=i;draw()});player.querySelector('.d4u-visual-steps').append(el)});
+   player.querySelector('[data-play]').onclick=()=>{if(playing){pause();return}if(index===scenes.length-1){index=0;draw()}playing=true;player.querySelector('[data-play]').textContent='Ⅱ Pause';schedule()};
+   player.querySelector('[data-prev]').onclick=()=>{pause();index=Math.max(0,index-1);draw()};
+   player.querySelector('[data-next]').onclick=()=>{pause();index=Math.min(scenes.length-1,index+1);draw()};
+   if(node.attachedAudio){audio=new Audio(node.attachedAudio);audio.controls=true;player.appendChild(audio);player.querySelector('.d4u-visual-note').textContent='Adam narration · visual lesson with captions';}
+   const label=document.querySelector('#externalVideoLabel');if(label&&label.style.display!=='none')label.textContent='Optional supporting video · '+label.textContent;
+   draw();
+ };
+})();
+</script>
 </body></html>
