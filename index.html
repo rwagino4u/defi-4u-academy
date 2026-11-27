@@ -3505,6 +3505,7 @@ input,textarea,select{background-color:transparent}
 <div class="home-actions v620-hero-actions">
 <button class="btn-primary v620-btn-primary" data-continue="">Continue Learning →</button>
 <button class="v620-btn-secondary" id="beginnerStart">New here? Start with DeFi basics</button>
+<button type="button" class="v620-btn-secondary" data-go="0.0">Welcome &amp; introduction</button>
 </div>
 <!-- Hero stat strip (visual only — sidebar remains source of truth) -->
 <div class="v620-stats-row" aria-hidden="true">
@@ -16193,7 +16194,7 @@ input,textarea,select{background-color:transparent}
     }
 
     function renderTree() {
-      document.getElementById('navTree').innerHTML = tree.children.map((node, i) => renderNode(node, `0.${i}`)).join('');
+      document.getElementById('navTree').innerHTML = tree.children.map((node, i) => i === 0 && node.learningLayer === 'utility' ? '' : renderNode(node, `0.${i}`)).join('');
     }
 
     function deepClone(value) {
@@ -16254,7 +16255,7 @@ input,textarea,select{background-color:transparent}
         list.querySelectorAll('.quiz-card').forEach(card => card.classList.add('reviewed'));
         list.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('correct', 'incorrect', 'missed-correct'));
         node.quiz.forEach((q, qi) => {
-          const picked = document.querySelector(`input[name="quiz-${qi}"]:checked`);
+          const picked = list.querySelector(`input[name="quiz-${qi}"]:checked`);
           const value = picked ? Number(picked.value) : -1;
           const ok = value === q.answer;
           if (ok) score += 1; else missed.push(qi);
@@ -17069,7 +17070,7 @@ input,textarea,select{background-color:transparent}
         set(document.querySelector('.academy-footer'), on('footer'));
       })(); } catch (_) {}
       card.onclick=null;
-      const linked=!!(node.youtubeVideoId||node.vimeoVideoId);
+      const linked=node.videoEnabled!==false && !!(node.youtubeVideoId||node.vimeoVideoId);
       const hasScript=node.videoScript&&String(node.videoScript).trim().length>30;
       if(hasScript && node.audioEnabled!==false){
         document.getElementById('videoTitle').textContent='DeFi 4U Coach — audio lesson';
@@ -17078,8 +17079,9 @@ input,textarea,select{background-color:transparent}
         document.getElementById('videoTitle').textContent=node.title+' — Introduction';
         document.getElementById('videoCopy').textContent='The introduction video will appear here when its link is added.';
       }
+      document.querySelector('#lessonView .video-body').hidden=!(linked || (node.audioEnabled!==false && (hasScript || node.attachedAudio || (window.__coachAudio||{})[path])));
       if(window.d4uSyncCoach)window.d4uSyncCoach();
-      if(!landing){document.querySelector('#lessonView .video-body').hidden=(node.videoEnabled===false)&&!(node.audioEnabled!==false&&hasScript);document.querySelector('#lessonView .right-rail .rail-card h3').textContent='Your Progress';return;}
+      if(!landing){document.querySelector('#lessonView .right-rail .rail-card h3').textContent='Your Progress';return;}
 
       alignLandingRail();
       const progressCard=document.querySelector('#lessonView .right-rail .rail-card');
@@ -17088,7 +17090,7 @@ input,textarea,select{background-color:transparent}
       document.getElementById('railProgressPercent').textContent=stats.percent+'%';
       document.getElementById('railProgressMeta').textContent=`${stats.completed} of ${stats.total} main learning steps complete`;
       document.getElementById('railProgressFill').style.width=stats.percent+'%';
-      document.querySelector('#lessonView .video-body').hidden=(node&&node.videoEnabled===false)?!(((node&&node.videoScript)||'').trim().length>30):!(linked?(((node&&node.videoScript)||'').trim().length>30):true);
+      // Media visibility is synchronized above for both landing and lesson pages.
     }
     function renderCompactBreadcrumb(path) {
       const bar=document.querySelector('.compact-navigation');if(!bar)return;
@@ -17490,7 +17492,7 @@ if (audioBtn) audioBtn.onclick = btn.onclick;
     <span id="d4u5Dirty">✓ Saved</span>
     <span class="d4u5-grow"></span>
     <button type="button" class="d4u5-ghost" data-act="revert">Revert</button>
-    <button type="button" class="d4u5-save" data-act="save">💾 Save &amp; Publish</button>
+    <button type="button" class="d4u5-save" data-act="save">💾 Save locally</button>
   </footer>
 </div>
 <div class="d4u5-pill" id="d4u5ExitPreview" hidden>
@@ -17701,7 +17703,7 @@ function mediaDetailHTML(){
   h+='<p class="d4u5-see" id="d4u5See">'+esc(seeLine(n))+'</p>';
   h+='<section class="d4u5-fs"><h3>🎬 Video Script <small>for producing this section\u2019s video later</small></h3>'
     +'<textarea class="d4u5-ta" data-f="videoDraftScript" rows="4" placeholder="Paste or write the script for this section\u2019s future video\u2026">'+esc(vd)+'</textarea>'
-    +'<div class="d4u5-meta"><span id="d4u5VCount">'+vd.length+' chars</span> · independent from the audio script · saved with Save &amp; Publish</div></section>';
+    +'<div class="d4u5-meta"><span id="d4u5VCount">'+vd.length+' chars</span> · independent from the audio script · saved in this browser</div></section>';
   h+='<section class="d4u5-fs"><h3>🗣️ Audio / Voiceover Script <span class="tag '+(aud[0]==='recorded'||aud[0]==='attached'?'ok':'dim')+'">'+aud[1]+'</span></h3>'
     +'<textarea class="d4u5-ta" data-f="videoScript" rows="6" placeholder="Write the exact text that should be read aloud\u2026">'+esc(as)+'</textarea>'
     +'<div class="d4u5-meta"><span id="d4u5ACount">'+as.length+' chars</span> · when no MP3 exists, this text is read by the device voice (TTS)</div>'
@@ -17817,7 +17819,7 @@ function settingsHTML(){
     +'<section><h3>ℹ️ About this system</h3>'
     +'<p><b>One source of truth.</b> Admin edits are saved into the same content tree the Student view reads. Press <b>Preview as Student</b> anytime to see exactly what students see.</p>'
     +'<p><b>Media rules.</b> Video OFF hides the video window. Audio OFF hides the audio buttons and the transcript. Both OFF leaves a clean lesson page.</p>'
-    +'<p class="d4u5-meta">'+pages+' pages · app version 6.19 · content size '+kb+' KB · '+attachCount+' attached MP3(s) · reload the file to return to this Welcome screen.</p>'
+    +'<p class="d4u5-meta">'+pages+' pages · app version 6.20 · content size '+kb+' KB · '+attachCount+' attached MP3(s) · reload the file to return to this Welcome screen.</p>'
     +'</section></div>';
 }
 
@@ -17826,7 +17828,7 @@ function saveNow(){
   try{ persistTree(); }catch(e){ notice('Could not save — browser storage is full. Remove a large attached MP3 and try again.'); return; }
   try{ savedSnapshot=clone(tree); }catch(e){}
   dirty=false; updateSaveBar(); refreshList(); applyTree();
-  notice('✓ Saved — the Student view now shows your changes.');
+  notice('✓ Saved in this browser — export a backup for a GitHub update.');
 }
 function revertAll(){
   if(!savedSnapshot){ notice('Nothing to revert yet.'); return; }
@@ -17850,9 +17852,9 @@ function previewAudio(){
 }
 function attachAudioFile(file){
   if(!file) return;
-  if(file.size > 2*1024*1024){ notice('That MP3 is too large (max 2 MB) — the course file already includes the 27 studio recordings.'); return; }
-  var r=new FileReader();
-  r.onload=function(){ var n=nodeAt(selPath); if(!n) return; n.attachedAudio=String(r.result); dirty=true; updateSaveBar(); renderBody(); notice('📎 MP3 attached — press Save & Publish to apply it.'); };
+  if(file.size > 2*1024*1024){ notice('That MP3 is too large for the local editor (max 2 MB).'); return; }
+  var targetPath=selPath; var r=new FileReader();
+  r.onload=function(){ var n=nodeAt(targetPath); if(!n) return; n.attachedAudio=String(r.result); dirty=true; updateSaveBar(); renderBody(); notice('📎 MP3 attached — press Save locally to apply it in this browser.'); };
   r.onerror=function(){ notice('Could not read that file.'); };
   r.readAsDataURL(file);
 }
@@ -17937,7 +17939,7 @@ $('d4u5Admin').addEventListener('click', function(ev){
   else if(act==='addQuiz'){ n.quiz=n.quiz||[]; n.quiz.push({question:'New question',options:['Option 1','Option 2','Option 3','Option 4'],answer:0,explanation:''}); dirty=true; renderBody(); }
   else if(act==='rmQuiz'){ if(n&&n.quiz){ n.quiz.splice(i,1); dirty=true; renderBody(); } }
   else if(act==='addOpt'){ if(n&&n.quiz&&n.quiz[i]){ n.quiz[i].options.push('New option'); dirty=true; renderBody(); } }
-  else if(act==='rmOpt'){ if(n&&n.quiz&&n.quiz[i]&&n.quiz[i].options.length>2){ n.quiz[i].options.splice(j,1); if(n.quiz[i].answer>=n.quiz[i].options.length) n.quiz[i].answer=0; dirty=true; renderBody(); } }
+  else if(act==='rmOpt'){ if(n&&n.quiz&&n.quiz[i]&&n.quiz[i].options.length>2){ if(j===n.quiz[i].answer){ notice('Select another correct answer before removing this option.'); return; } n.quiz[i].options.splice(j,1); if(j<n.quiz[i].answer) n.quiz[i].answer--; dirty=true; renderBody(); } }
 });
 
 /* ---------- shared field applier (used by input AND change events) ---------- */
@@ -17990,7 +17992,7 @@ $('d4u5Admin').addEventListener('change', function(ev){
     try{ persistTree(); savedSnapshot=clone(tree); }catch(e){ notice('Could not save that change.'); return; }
     dirty=false; updateSaveBar(); applyTree(); refreshList();
     if(sp===selPath){ var det=$('d4u5Detail'); if(det) det.innerHTML=(tab==='content')?contentDetailHTML():mediaDetailHTML(); }
-    notice('✓ Switch applied — students see it now.');
+    notice('✓ Switch applied to this browser’s preview.');
     return;
   }
   var wk=el.getAttribute('data-win');
