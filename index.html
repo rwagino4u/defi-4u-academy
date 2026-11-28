@@ -3477,7 +3477,7 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
 .d4u-visual-note{font-size:12px;color:#afc0d8;margin:0;padding:0 12px 12px}
 @media(prefers-reduced-motion:reduce){.d4u-visual-scene{animation:none}}
 </style>
-<style id="d4u-story-style">.d4u-story-player{margin:12px;padding:18px;background:#0e1b2d;border:1px solid #344a64;border-radius:12px;color:#e0eafb}.d4u-story-eyebrow{font-size:12px;letter-spacing:1px;color:#f4cd7c;font-weight:800}.d4u-story-player p{font-size:14px;line-height:1.55;margin:10px 0 0}.d4u-story-player video{display:block;width:100%;aspect-ratio:16/9;margin-top:12px;background:#000;border-radius:8px}body.d4u-visual-lesson #externalVideoLabel{margin:0 12px 8px}body.d4u-visual-lesson .lesson-notes-guide{display:none!important}body.d4u-visual-lesson #videoOutcomes{display:none!important}</style>
+<style id="d4u-story-style">.d4u-story-player{margin:12px;padding:18px;background:#0e1b2d;border:1px solid #344a64;border-radius:12px;color:#e0eafb}.d4u-story-eyebrow{font-size:12px;letter-spacing:1px;color:#f4cd7c;font-weight:800}.d4u-story-player p{font-size:14px;line-height:1.55;margin:10px 0 0}.d4u-story-player video{display:block;width:100%;aspect-ratio:16/9;margin-top:12px;background:#000;border-radius:8px}body.d4u-visual-lesson #externalVideoLabel{margin:0 12px 8px}body.d4u-visual-lesson .lesson-notes-guide{display:none!important}body.d4u-visual-lesson #videoOutcomes{display:none!important}.d4u-story-player details{margin-top:14px}.d4u-story-player summary{color:#f4cd7c;cursor:pointer}.d4u-story-player h3{margin:20px 0 4px}</style>
 </head>
 <body class="">
 <div class="menu-overlay" id="menuOverlay"></div>
@@ -15939,7 +15939,7 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
         if (st.recent && __valid.has(st.recent)) progressState.recent = st.recent;
         for (const [p, q] of Object.entries(st.quizzes || {})) {
           if (progressState.quizzes[p] || !__valid.has(p) || !q) continue;
-          let quiz = null; try { quiz = (getNodeByPath(p).quiz || []).slice(0, 5); } catch (_) { continue; }
+          let quiz = null; try { quiz = studentQuiz(getNodeByPath(p), p); } catch (_) { continue; }
           if (Number.isInteger(q.score) && q.total === quiz.length && q.score >= 0 && q.score <= q.total) {
             progressState.quizzes[p] = { score: q.score, total: q.total, missed: Array.isArray(q.missed) ? q.missed : [] };
             __moved = true;
@@ -16264,8 +16264,13 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
       node.level = level; node.children = node.children || [];
       node.children.forEach(child => syncLevels(child, level + 1));
     }
+    function studentQuiz(node, path) {
+      const questions = node.quiz || [];
+      return path === '0.1.3' ? questions : questions.slice(0, 5);
+    }
+
     function renderQuiz(node) {
-      node = {...node, quiz: (node.quiz || []).slice(0,5)};
+      node = {...node, quiz: studentQuiz(node, currentPath)};
       const panel = document.getElementById('quizPanel');
       const list = document.getElementById('quizList');
       const result = document.getElementById('quizResult');
@@ -16962,8 +16967,8 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
       for(const [p,v] of Object.entries(data.state.lessons)) {if(!valid.has(p)||v!==true) throw new Error('Invalid lesson entry.');state.lessons[p]=true;}
       if(data.state.recent!=null){if(!valid.has(data.state.recent))throw new Error('Invalid recent lesson.');state.recent=data.state.recent;}
       for(const [p,q] of Object.entries(data.state.quizzes||{})) {
-        if(!valid.has(p))throw new Error('Invalid quiz page.');const quiz=(getNodeByPath(p).quiz||[]).slice(0,5);
-        if(!q || !Number.isInteger(q.score)||q.total!==quiz.length||q.score<0||q.score>q.total||!Array.isArray(q.missed)||q.missed.length!==q.total-q.score||new Set(q.missed).size!==q.missed.length||q.missed.some(i=>!Number.isInteger(i)||i<0||i>=q.total))throw new Error('Invalid quiz result.');
+        if(!valid.has(p))throw new Error('Invalid quiz page.');const quiz=studentQuiz(getNodeByPath(p), p);
+        if(!q || !Number.isInteger(q.score)||(q.total!==quiz.length && !(p==="0.1.3" && q.total===5))||q.score<0||q.score>q.total||!Array.isArray(q.missed)||q.missed.length!==q.total-q.score||new Set(q.missed).size!==q.missed.length||q.missed.some(i=>!Number.isInteger(i)||i<0||i>=q.total))throw new Error('Invalid quiz result.');
         state.quizzes[p]={score:q.score,total:q.total,missed:q.missed};
       }
       return state;
@@ -18168,6 +18173,193 @@ $('d4u5Admin').addEventListener('change', function(ev){
 
 <script id="d4u-beginner-player">
 (function(){
+ const practice = {
+  "0.0": [
+    "Quick Start",
+    "You have no wallet and own no crypto. What do you need to buy before you can begin?",
+    "Nothing. Use the fictional balances in this course. Start with DeFi Foundations, follow Alex through a swap and loan, then finish with the safety exercises."
+  ],
+  "0.1": [
+    "Your first practice transfer",
+    "Sam requests 2 practice tokens on Testnet A. The preview says 2 tokens on Network B. The address looks identical. Would you confirm?",
+    "Cancel. Match the asset, receiving address and network. The same address can exist on different networks with separate balances. In a real practice session, use a separate test wallet, review the fee, then look up the transaction hash on the matching testnet explorer."
+  ],
+  "0.1.0.0.0": [
+    "A monthly budget",
+    "Alex has $100 today, owes $60 tomorrow and wants to lend $70 for a month. What would the loan leave for tomorrow?",
+    "Only $30. Even if the loan pays interest later, Alex would be $30 short when the bill arrives. Timing matters as much as the total balance."
+  ],
+  "0.1.0.0.1": [
+    "Read a payment record",
+    "An explorer shows a successful transfer to an address. Does this prove that the seller shipped the coffee?",
+    "It confirms the recorded transfer. Shipping is an event outside the ledger and needs separate evidence."
+  ],
+  "0.1.0.0.2": [
+    "A fee in a different asset",
+    "Alex has a dollar token on Ethereum and no ETH. Why might a standard transfer fail before it starts?",
+    "An ordinary Ethereum transaction needs ETH for gas. The token balance and the balance available for the network fee are different."
+  ],
+  "0.1.0.0.3": [
+    "Follow one swap",
+    "A shop quotes Alex 9 blue tokens for 10 orange ones. In a DeFi swap, who applies the exchange rule and what does Alex check?",
+    "The exchange contract applies its rules. Before signing, Alex checks the network, token identities, spending permission, fee and minimum output. The app supplies the screen and the wallet authorizes the action."
+  ],
+  "0.1.0.1.0": [
+    "Receive a test payment",
+    "Sam asks for a public address and network. Which wallet details can Alex give Sam?",
+    "The intended receiving address and network. Sam can send without knowing the private key or recovery phrase."
+  ],
+  "0.1.0.1.1": [
+    "Lost phone",
+    "Alex loses a phone. A stranger offers to restore the wallet if Alex reads out the recovery words. What should Alex do?",
+    "Decline. Those words can recreate the keys. Use the wallet provider’s official recovery instructions independently and enter recovery information only in a trusted recovery process."
+  ],
+  "0.1.0.1.2": [
+    "Read the permission",
+    "A swap needs 10 tokens. The approval asks for unlimited spending. Does clicking Disconnect later cancel that approval?",
+    "Usually no. Disconnecting removes the website connection. An on-chain allowance can persist until it is changed or revoked. Decline a request you cannot explain."
+  ],
+  "0.1.0.1.3": [
+    "Two similar websites",
+    "A search ad resembles the wallet website and offers an urgent update. How can Alex check it?",
+    "Close the ad and independently open the verified address. Inspect the exact domain and the wallet request. Familiar branding alone proves little."
+  ],
+  "0.1.0.2.0": [
+    "Price a balance",
+    "Alex holds 40 tokens targeting $1. At a market price of $0.95, what are they worth before fees?",
+    "40 × $0.95 = $38. A target price is a design goal. The amount a trader can actually receive depends on the market."
+  ],
+  "0.1.0.2.1": [
+    "Trace the backing",
+    "One issuer holds reserves. Another protocol locks crypto worth more than the tokens it issues. What evidence would you seek for each?",
+    "For reserves, check the assets, reporting date and redemption terms. For crypto collateral, check its value, price feeds and liquidation rules."
+  ],
+  "0.1.0.2.2": [
+    "Selling versus redeeming",
+    "A token trades for $0.97. Its issuer says eligible customers can redeem for $1. Can Alex assume a $1 exit?",
+    "No. Alex must check eligibility, minimums, delays and fees. A market sale uses the available price and liquidity."
+  ],
+  "0.1.1.0.0": [
+    "Who controls withdrawal?",
+    "One platform must approve Alex’s withdrawal. Another asks Alex to sign a contract call from a wallet. Where is control concentrated?",
+    "The first platform controls custody and withdrawals. In the second case Alex controls the signature, while contract rules, upgrade powers and the interface still matter."
+  ],
+  "0.1.1.0.1": [
+    "When a website is offline",
+    "A dApp’s website goes offline. Does that alone prove its contract stopped running?",
+    "No. The interface and contract are separate. Check the network and verified contract records before drawing a conclusion."
+  ],
+  "0.1.1.0.2": [
+    "Follow a bridge quote",
+    "A bridge offers to move a token from Network A to B. Is this the same as swapping two tokens on A?",
+    "No. A bridge transfers value or a representation across networks. Verify the official bridge, both networks, token contracts, amount, fees and what asset arrives. A bridge adds its own contract or operator risks."
+  ],
+  "0.1.1.0.3": [
+    "Minimum received",
+    "The estimate is 100 B, the minimum is 99 B, and execution would deliver 98.5 B. What happens if the contract enforces the minimum?",
+    "The swap reverts. A submitted transaction may still consume gas. The minimum protects the output under the contract’s rules."
+  ],
+  "0.1.1.1.0": [
+    "Read the reserves",
+    "A trader sends A into a two-token pool and takes B out. Before fees, which reserve increased?",
+    "The A reserve increased and the B reserve decreased. Liquidity providers now own a share of a different mix."
+  ],
+  "0.1.1.1.1": [
+    "Price a pool trade",
+    "A simplified pool keeps A × B = 10,000 and starts at 100 A and 100 B. Add 25 A. Ignoring fees, how much B leaves?",
+    "125 A requires 80 B to keep the product at 10,000. The trader receives 20 B. The initial one-to-one reserve ratio did not promise 25 B."
+  ],
+  "0.1.1.2.0": [
+    "Mining or staking?",
+    "One network uses miners doing computational work. Another requires validators to commit assets. Which is staking?",
+    "The second uses proof of stake. Proof-of-work mining uses computing power. Liquidity mining is a different term for protocol incentives."
+  ],
+  "0.1.1.2.1": [
+    "Compare APR and APY",
+    "Start with 100 units at a hypothetical 10% annual simple rate. What changes if interest is credited and reinvested twice a year?",
+    "Without compounding the balance is 110. With two 5% periods it is 100 × 1.05 × 1.05 = 110.25. APY includes compounding assumptions. Actual rates, prices and fees can change."
+  ],
+  "0.1.1.2.2": [
+    "Trace the reward",
+    "A pool pays 20 new tokens and the token price falls from $1 to $0.25 before exit. What are the rewards now worth?",
+    "$5 before costs. Token emissions distribute tokens. They do not create a fixed dollar return."
+  ],
+  "0.1.1.2.3": [
+    "Choose the comparison",
+    "After prices change, Alex’s pool share is worth $108 with fees. Holding the original assets would have been worth $115. Which did better?",
+    "Holding did better by $7. A pool position can rise in dollar terms and still underperform the original mix."
+  ],
+  "0.1.1.3.0": [
+    "A supplier wants to exit",
+    "Alex supplied 100 tokens. Many tokens are currently borrowed. Can an account balance alone prove immediate withdrawal is possible?",
+    "No. Check available liquidity and the protocol’s withdrawal rules. Accrued interest and cash available now answer different questions."
+  ],
+  "0.1.1.3.1": [
+    "Read a lending market",
+    "Two screens show different supply rates for the same token. What would you compare before interpreting them?",
+    "Compare the network, protocol version, market, time of observation, incentive tokens and whether the quote is APR or APY. A rate is a snapshot."
+  ],
+  "0.1.1.3.2": [
+    "Measure a loan",
+    "Sam owes $75 against $150 of collateral. The collateral drops to $90. How does the debt-to-collateral ratio change?",
+    "It rises from 50% to about 83%. The debt stayed the same. Whether liquidation occurs depends on this market’s threshold."
+  ],
+  "0.1.1.3.3": [
+    "Two different loan rules",
+    "A loan must be borrowed and repaid within a single transaction. What happens if the final repayment condition fails?",
+    "The transaction reverts under the flash-loan contract. An ordinary collateralized loan can last across transactions and can be liquidated later."
+  ],
+  "0.1.1.4.0": [
+    "Count the voting power",
+    "Three addresses vote yes and one votes no. Does that settle a token-weighted vote?",
+    "You need the voting weights, quorum and decision rules. Also check who can execute the approved change."
+  ],
+  "0.1.1.4.1": [
+    "Identify the claim",
+    "A token is advertised as backed by a warehouse. What would establish whether Alex owns a share, has a debt claim or has neither?",
+    "Read the issuing documents, ownership records, custody arrangements and redemption terms. A token transfer alone cannot answer that question."
+  ],
+  "0.1.1.4.2": [
+    "Compare two systems",
+    "A new app calls itself decentralized but one operator can change withdrawal rules. Which question matters more than its launch date?",
+    "Who can change the rules, how much notice users get and whether they can exit before a change takes effect."
+  ],
+  "0.1.2.0.0": [
+    "A support direct message",
+    "A stranger offers a refund if Alex signs an unreadable message. No recovery words are requested. Is signing safe?",
+    "Decline. A signature can authorize rights or trades even when nobody asks for secret words. Verify the request through an independent channel."
+  ],
+  "0.1.2.0.1": [
+    "A bad price feed",
+    "A lending contract receives yesterday’s collateral price through an oracle. Why can correct contract code still produce a bad outcome?",
+    "An oracle supplies outside data to the contract. A stale or manipulated price can trigger an incorrect loan or liquidation decision even when the code follows its rules."
+  ],
+  "0.1.2.0.2": [
+    "A claim about an audit",
+    "A site advertises an audit from last year. The contract was upgraded yesterday. What would you check?",
+    "Match the report’s scope and reviewed version to the deployed code, then check whether findings were fixed and who controls upgrades."
+  ],
+  "0.1.2.1.0": [
+    "Interpret TVL",
+    "A pool holds 100 tokens. Their price rises from $2 to $3 with no deposits. What happens to dollar-denominated total value locked?",
+    "It rises from $200 to $300. Rising TVL alone does not prove that more users or tokens arrived."
+  ],
+  "0.1.2.1.1": [
+    "Read a supply schedule",
+    "A project starts with 100 circulating tokens, releases 20 more and burns 5 circulating tokens. Where does circulation end?",
+    "At 115, assuming nothing else changes. A burn permanently removes tokens. An unlock can add existing tokens to circulation, while minting creates new tokens. A burn alone cannot predict price."
+  ],
+  "0.1.2.1.2": [
+    "Write a research note",
+    "A project claims a steady return but gives no source of revenue or exit terms. What belongs in Alex’s conclusion?",
+    "Record the claim, its source and date, the missing evidence, who controls withdrawals and how losses could occur. An unanswered question is a valid research result."
+  ],
+  "0.1.3": [
+    "Before the knowledge check",
+    "Teach a friend how to review a swap, what can liquidate a loan and why a token reward may lose value. Where would you look if one is unclear?",
+    "Revisit Gas & Slippage, Borrowing & Collateral, or Liquidity Mining. Then answer all 18 questions and read the feedback for each answer."
+  ]
+};
  let player=null;
  window.d4uStopVisual=function(){if(player){const v=player.querySelector('video');if(v){v.pause();v.removeAttribute('src');v.load()}player.remove();player=null}};
  window.d4uRenderVisual=function(node,path){
@@ -18179,17 +18371,37 @@ $('d4u5Admin').addEventListener('change', function(ev){
    const hasVideo=typeof node.d4uPrimaryVideo==='string'&&node.d4uPrimaryVideo.trim()!=='';
    const hasEmbed=!!(node.youtubeVideoId||node.vimeoVideoId)&&location.protocol!=='file:';
    player=document.createElement('div');player.className='d4u-story-player';
-   const label=document.createElement('div');label.className='d4u-story-eyebrow';label.textContent='DEFI4U ACADEMY · '+(hasVideo?'ADAM · VIDEO LESSON':'VIDEO LESSON');player.append(label);
+   const heading=document.getElementById('videoTitle');
+   heading.textContent=node.title;
+   document.getElementById('videoCopy').textContent=hasVideo?'Watch the lesson, then try the example.':'Read the lesson, then work through the example.';
    if(hasVideo){
-     const video=document.createElement('video');video.controls=true;video.playsInline=true;video.preload='metadata';video.src=node.d4uPrimaryVideo;video.setAttribute('aria-label',node.title);
-     video.addEventListener('error',()=>{if(!player)return;const msg=document.createElement('p');msg.textContent='The lesson video could not load. Read the transcript below.';player.append(msg)},{once:true});player.append(video);
-   }else{
-     const msg=document.createElement('p');msg.textContent=hasEmbed?'Adam’s original video is in production. A supplementary video from its original creator is embedded below.':location.protocol==='file:'?'Original Adam video pending. For third-party embeds, view the Academy on a local HTTP server or HTTPS site. The story transcript is available below.':'Adam’s original video is in production. Read the story transcript below; no placeholder slideshow.';player.append(msg);
+     const video=document.createElement('video');
+     video.controls=true; video.playsInline=true; video.preload='metadata';
+     video.src=node.d4uPrimaryVideo;
+     video.setAttribute('aria-label',node.title);
+     player.append(video);
+   }
+   const story=document.createElement('p');
+   story.textContent=node.videoScript;
+   player.append(story);
+   const example=practice[path];
+   if(example){
+     const title=document.createElement('h3');
+     title.textContent=example[0];
+     const question=document.createElement('p');
+     question.textContent=example[1];
+     const solution=document.createElement('details');
+     const toggle=document.createElement('summary');
+     toggle.textContent='Check your reasoning';
+     const answer=document.createElement('p');
+     answer.textContent=example[2];
+     solution.append(toggle,answer);
+     player.append(title,question,solution);
    }
    const toolbar=wrap.querySelector('.video-toolbar');if(toolbar)toolbar.insertAdjacentElement('afterend',player);else wrap.prepend(player);
    const externalLabel=document.getElementById('externalVideoLabel');if(externalLabel&&externalLabel.style.display!=='none')externalLabel.textContent=hasEmbed?'Supporting video · '+(node.youtubeTitle||node.vimeoTitle||'Original creator'):'';
    if(!hasEmbed){const external=document.getElementById('externalVideoWrap');if(external)external.style.display='none';if(externalLabel)externalLabel.style.display='none'}
-   const panel=document.getElementById('coachScriptPanel');if(panel){panel.style.display='block';panel.open=!hasVideo&&!hasEmbed;const summary=panel.querySelector('summary');if(summary)summary.textContent='Read the lesson transcript';}
+   const panel=document.getElementById('coachScriptPanel');if(panel){panel.style.display='block';panel.open=false;const summary=panel.querySelector('summary');if(summary)summary.textContent='Read the lesson transcript';}
  };
 })();
 </script>
