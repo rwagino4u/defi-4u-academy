@@ -3523,10 +3523,10 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
 <div class="v620-hero">
 <div class="v620-eyebrow"><span class="v620-eyebrow-dot"></span><span class="home-kicker">LEARN AT YOUR OWN PACE</span></div>
 <h1>Master DeFi. <span class="v620-gold-text">Safely.</span><br/>From zero to your first transaction.</h1>
-<p>Understand the fundamentals. Explore a real-world case study. Choose your next path — all in one focused academy built for serious beginners.</p>
+<p>Start with the short DeFi overview. The full lesson library and extended knowledge check are available whenever you want more detail.</p>
 <div class="home-actions v620-hero-actions">
-<button class="btn-primary v620-btn-primary" data-continue="">Continue Learning →</button>
-<button class="v620-btn-secondary" id="beginnerStart">New here? Start with DeFi basics</button>
+<a class="btn-primary v620-btn-primary" href="DeFi-Quick-Start.html">Start Module 1 · 10–15 minute overview →</a>
+<button class="v620-btn-secondary" id="beginnerStart">Explore the detailed lessons</button>
 <button type="button" class="v620-btn-secondary" data-go="0.0">Welcome &amp; introduction</button>
 </div>
 <!-- Hero stat strip (visual only — sidebar remains source of truth) -->
@@ -16425,6 +16425,16 @@ body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:non
 
       if (isTopLevelModule) {
         document.getElementById('moduleOverviewTitle').textContent = node.title;
+        let quickLink = document.getElementById('moduleOneQuickLink');
+        if (!quickLink) {
+          quickLink = document.createElement('a');
+          quickLink.id = 'moduleOneQuickLink';
+          quickLink.href = 'DeFi-Quick-Start.html';
+          quickLink.textContent = 'Take the 10–15 minute DeFi overview';
+          document.getElementById('moduleOverviewTitle').after(quickLink);
+        }
+        quickLink.hidden = path !== '0.1';
+
         document.getElementById('moduleOverviewDescription').textContent =
           node.summary || 'This module introduces the next stage of your learning journey.';
 
