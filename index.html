@@ -3456,6 +3456,28 @@ input,textarea,select{background-color:transparent}
 .d4u-support-note{margin:14px 0 0;color:#cfe4ff;font-size:12.5px;border-top:1px solid rgba(148,163,184,.2);padding-top:12px}
 @media(max-width:560px){.d4u-support-pill{left:12px;bottom:12px;padding:9px 14px;font-size:12px}}
 </style>
+
+<style id="d4u-beginner-style">
+body.d4u-visual-lesson #lessonView .video-body,body.d4u-visual-lesson #d4uAltVideoCard,body.d4u-visual-lesson #externalVideoFallback,body.d4u-visual-lesson #externalVideoNote{display:none!important}
+body.d4u-visual-lesson #externalVideoWrap:has(iframe[style*="none"]){display:none!important}
+.d4u-visual-box{margin:12px;border:1px solid #40536b;border-radius:16px;overflow:hidden;background:#0a1424;color:#fff}
+.d4u-visual-screen{min-height:260px;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:24px;background:radial-gradient(ellipse at top right,#243c59,#0a1424 70%)}
+.d4u-visual-brand{font-size:11px;font-weight:800;letter-spacing:2px;color:#f4cd7c}
+.d4u-visual-steps{display:flex;gap:8px;flex-wrap:wrap}
+.d4u-visual-step{font-size:12px;padding:7px 10px;border-radius:7px;border:1px solid #42536c;color:#afc0d8;background:#14243b}
+.d4u-visual-step.active{color:#101a2b;background:#f4cd7c;font-weight:800}
+.d4u-visual-scene{animation:d4uSceneIn .45s ease-out}
+@keyframes d4uSceneIn{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+.d4u-visual-heading{font-size:clamp(20px,3vw,30px);font-weight:800;color:white;margin:0}
+.d4u-visual-caption{font-size:clamp(15px,2vw,19px);line-height:1.55;margin:10px 0 0;max-width:58ch;color:#e0eafb}
+.d4u-visual-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border-top:1px solid #40536b}
+.d4u-visual-controls button{background:#162943;border:1px solid #526a86;border-radius:8px;padding:8px 12px;color:white;cursor:pointer;font-size:13px}
+.d4u-visual-controls button:first-child{background:#f4cd7c;color:#101a2b;font-weight:800}
+.d4u-visual-controls progress{flex:1;min-width:70px;accent-color:#f4cd7c}
+.d4u-visual-note{font-size:12px;color:#afc0d8;margin:0;padding:0 12px 12px}
+@media(prefers-reduced-motion:reduce){.d4u-visual-scene{animation:none}}
+</style>
+<style id="d4u-story-style">.d4u-story-player{margin:12px;padding:18px;background:#0e1b2d;border:1px solid #344a64;border-radius:12px;color:#e0eafb}.d4u-story-eyebrow{font-size:12px;letter-spacing:1px;color:#f4cd7c;font-weight:800}.d4u-story-player p{font-size:14px;line-height:1.55;margin:10px 0 0}.d4u-story-player video{display:block;width:100%;aspect-ratio:16/9;margin-top:12px;background:#000;border-radius:8px}body.d4u-visual-lesson #externalVideoLabel{margin:0 12px 8px}body.d4u-visual-lesson .lesson-notes-guide{display:none!important}body.d4u-visual-lesson #videoOutcomes{display:none!important}.d4u-story-player details{margin-top:14px}.d4u-story-player summary{color:#f4cd7c;cursor:pointer}.d4u-story-player h3{margin:20px 0 4px}</style>
 </head>
 <body class="">
 <div class="menu-overlay" id="menuOverlay"></div>
@@ -3505,6 +3527,7 @@ input,textarea,select{background-color:transparent}
 <div class="home-actions v620-hero-actions">
 <button class="btn-primary v620-btn-primary" data-continue="">Continue Learning →</button>
 <button class="v620-btn-secondary" id="beginnerStart">New here? Start with DeFi basics</button>
+<button type="button" class="v620-btn-secondary" data-go="0.0">Welcome &amp; introduction</button>
 </div>
 <!-- Hero stat strip (visual only — sidebar remains source of truth) -->
 <div class="v620-stats-row" aria-hidden="true">
@@ -15838,7 +15861,44 @@ input,textarea,select{background-color:transparent}
     "closing": "Match your question to the right channel — urgent, general, community, or scheduled — and you will get help faster."
 };
     const TREE_STORAGE_KEY = 'defi4u-academy-final-user-edited';
-    const D4U_TREE_VERSION = 19;
+    
+    // Module 1 beginner edition. Keep original navigation paths and quiz data intact.
+    const D4U_BEGINNER_SCENES = [["0.0","Welcome|You do not need crypto or a wallet to begin.|Learn|Watch the short visual lessons, read the examples and try the quizzes.|Start safely|Practise with imaginary balances before considering real money."],["0.1","Understand|DeFi means financial services built with blockchain programs.|Explore|Learn how wallets, exchanges, stablecoins and lending fit together.|Stay safe|Research risks before deciding whether to use any financial service."],["0.1.0","Money|Finance helps people save, pay and borrow.|Blockchain|A shared ledger records transactions, and smart contracts run rules.|Build confidence|Learn what wallets and stablecoins do before interacting with DeFi."],["0.1.0.0","Finance|Money moves between people and businesses.|Blockchain|A network agrees on a shared record of transactions.|DeFi|Blockchain programs can support financial services such as trades and loans."],["0.1.0.0.0","Save and pay|Imagine you have $100, spend $20 and save $80.|Borrow and lend|A borrower receives money and agrees to repay it, often with interest.|Connect the ideas|DeFi offers some similar services through blockchain programs."],["0.1.0.0.1","A shared notebook|Imagine several people keeping identical transaction records.|Verify|A network checks new entries according to its rules.|Remember|Records are difficult to alter, but a blockchain does not guarantee that a claim is true."],["0.1.0.0.2","Ethereum|Ethereum is a blockchain that runs programs called smart contracts.|ETH|Its native asset, ether, pays network fees and helps secure the network.|Check the network|Wallets interact with applications on Ethereum and other networks. Confirm which one you are using."],["0.1.0.0.3","Traditional finance|A bank or broker usually operates the service.|DeFi|A wallet can interact with smart contracts to trade or lend assets.|The trade-off|Access can be open, but bugs, scams and mistakes may lead to irreversible losses."],["0.1.0.1","Your wallet|A wallet helps manage keys that control blockchain assets.|Your secrets|Keep private keys and recovery phrases private and offline.|Your decisions|Read every request before signing. Connecting is not the same as approving a transaction."],["0.1.0.1.0","Digital keychain|A wallet manages keys to assets recorded on a blockchain.|Two approaches|A self-custody wallet leaves key responsibility with you; a custodial service manages keys for you.|Start safely|Use official downloads and practise on a test network."],["0.1.0.1.1","Public address|An address can usually be shared to receive assets.|Private key|A private key authorizes actions. A recovery phrase can regenerate wallet keys.|Protect access|Never enter recovery words into a website or share them with support."],["0.1.0.1.2","Connect|An app may request your public address and network.|Review|Signing or approving tokens can grant more power than connecting.|Stop if unsure|Check the website and reject requests you do not understand."],["0.1.0.1.3","Fake support|Scammers imitate staff, promise gifts or ask you to verify your wallet.|Verify independently|Open the official site yourself and check the request.|Protect your keys|Never reveal recovery phrases. Stop when pressured."],["0.1.0.2","The target|Stablecoins aim to track a reference price such as one dollar.|Different designs|Some rely on reserves, some on crypto collateral and some on algorithms.|Risk remains|A stablecoin can lose its peg. Research reserves and redemption rules."],["0.1.0.2.0","Price target|A dollar stablecoin aims to stay near $1.|Example|Ten stablecoins may be worth about $10 while the peg holds.|Not guaranteed|A stablecoin can fall below its target and is not automatically an insured bank deposit."],["0.1.0.2.1","Fiat-backed|An issuer may hold cash and other reserves to support redemption.|Crypto-backed|A protocol holds crypto collateral, often worth more than the tokens issued.|Algorithmic|Rules and incentives try to maintain the price, but can fail severely."],["0.1.0.2.2","Useful|Stablecoins help quote prices and transfer value on-chain.|Depegging|A token targeting $1 could trade at $0.90 or less.|Check the risks|Review reserve assets, redemption, liquidity and issuer or protocol risk."],["0.1.1","Trade|Exchanges let users swap tokens.|Participate|Some protocols support liquidity, staking, lending and borrowing.|Compare the risks|Fees, price changes, bugs and liquidation can outweigh rewards."],["0.1.1.0","Choose an app|Centralized and decentralized exchanges handle trades differently.|Read the quote|Check the expected amount, fees, price impact and network.|Practise first|Use a simulation or testnet. Do not send funds just to follow a lesson."],["0.1.1.0.0","Centralized exchange|A company operates the platform and often holds customer assets.|Decentralized exchange|A wallet interacts with smart contracts to exchange tokens.|Compare|Consider custody, fees, liquidity, security and applicable restrictions."],["0.1.1.0.1","A dApp|A decentralized application uses blockchain programs for some functions.|Example|A swap app can request a wallet signature to trade tokens.|Check control|Interfaces, admin keys and other services may still be centralized."],["0.1.1.0.2","Pick tokens|Imagine swapping ten units of token A for token B.|Read the quote|The app shows estimated output, fees and minimum received.|Confirm carefully|Check addresses, network and permissions. Cancel if unsure."],["0.1.1.0.3","Gas fee|A network may charge to process a transaction.|Slippage|The actual trade price can differ from the expected price.|Price impact|Large trades can move a pool price. Check minimum received and total fees."],["0.1.1.1","Liquidity|A pool holds assets people can trade against.|Pricing|An automated market maker uses rules to calculate an exchange price.|Risk|Pool balances and asset prices change. Liquidity providers can lose money."],["0.1.1.1.0","Shared pool|Imagine a pool holding token A and token B.|Trade|A trader adds one token and receives another under pricing rules.|Providers|Providers may earn fees but face price, contract and other risks."],["0.1.1.1.1","Automatic pricing|Many AMMs calculate prices using mathematical rules rather than an order book.|Example|As traders remove token B, it may become more expensive relative to token A.|Trade-offs|Low liquidity and large trades can create significant price impact."],["0.1.1.2","Staking|Some networks reward participants for helping secure a blockchain.|Farming|Some protocols offer rewards for supplying assets or other activities.|Risk first|Rates and prices change. Fees, locks and contract failures can cause losses."],["0.1.1.2.0","Network security|Proof-of-stake networks use staked assets to help validate transactions.|Rewards|Participants may earn rewards under network rules.|Risks|Prices may fall, withdrawals may be delayed and validators may face penalties."],["0.1.1.2.1","Supply assets|Yield farming describes strategies seeking rewards from DeFi protocols.|Example|A user supplies liquidity and may receive fees or incentive tokens.|Net outcome|Quoted rates are not guarantees. Account for costs, price changes and risks."],["0.1.1.2.2","Incentives|Some projects distribute tokens to attract liquidity providers.|Changing rewards|Rewards can decrease or lose value when programs change.|Check the source|Understand who funds rewards and how withdrawals work. High rates do not prove safety."],["0.1.1.2.3","Two choices|Hold two tokens in a wallet or supply them to a liquidity pool.|Price changes|As relative prices move, the pool changes your token mix. Its value can lag simple holding.|Net result|Fees may not offset the difference. A loss can become permanent when withdrawing."],["0.1.1.3","Supply|Lenders provide assets and may earn variable interest.|Borrow|Borrowers often pledge collateral worth more than the loan.|Manage risk|Insufficient collateral may trigger liquidation. Lenders can also lose money."],["0.1.1.3.0","Lending pool|A protocol accepts supplied assets from participants.|Borrowing|Eligible borrowers access assets under collateral and interest rules.|Risks|Rates, liquidity, token prices and bugs affect returns and withdrawals."],["0.1.1.3.1","Aave|Aave is an example of a DeFi lending protocol.|How it works|Users may supply supported assets or borrow against eligible collateral.|Explore safely|Study official documentation. Rates and collateral rules change."],["0.1.1.3.2","Collateral|Imagine pledging assets worth $150 to borrow $75. This is only an example.|Price changes|A fall in collateral value makes the position riskier.|Monitor|Liquidation thresholds depend on the protocol. Understand them before borrowing."],["0.1.1.3.3","Liquidation|If collateral becomes insufficient, some may be sold or transferred to repay debt.|Flash loan|Some protocols allow borrowing and repayment in one transaction; failure reverts it.|Beginner rule|Avoid leverage and complex strategies until you understand the risks."],["0.1.1.4","Governance|Some protocols let participants propose and vote on changes.|Real-world assets|Tokens may represent claims linked to off-chain assets.|Keep learning|Check current documentation. A token alone does not prove ownership."],["0.1.1.4.0","DAO|A decentralized autonomous organization uses rules and collective decision processes.|Voting|Participants may vote on upgrades or treasury spending.|Check power|Voting can be concentrated and admin controls may exist."],["0.1.1.4.1","Real-world asset|Imagine a bond or a property with economic rights represented digitally.|Tokenization|A token may represent a claim under an issuer and legal structure.|Verify rights|Check ownership, custody, redemption, restrictions and issuer risk."],["0.1.1.4.2","First blockchains|Bitcoin introduced a widely used decentralized transaction ledger.|Programmable money|Ethereum and other networks enabled smart-contract applications.|Today|DeFi continues to evolve. Newer does not automatically mean safer."],["0.1.2","Protect yourself|Recognize phishing, unsafe approvals and contract risks.|Research|Use official documentation, explorers and independent data.|Decide independently|If you cannot explain how something works or fails, do not put money into it."],["0.1.2.0","Recognize scams|Fake websites and messages try to rush you into granting access.|Technical risk|Even legitimate protocols can fail due to bugs or poor design.|Build a routine|Verify first, practise safely and never reveal your recovery phrase."],["0.1.2.0.0","Suspicious message|Someone offers a reward and sends a wallet connection link.|Warning sign|The site asks for recovery words or unexpected approvals.|What to do|Close the link and verify official sources. Report suspected scams."],["0.1.2.0.1","Code with money|Smart contracts run code that may control valuable assets.|Failure modes|Bugs, malicious upgrades, bad price feeds and poor design can cause losses.|Reduce exposure|Check audit scope and permissions. Audits cannot guarantee safety."],["0.1.2.0.2","Understand|Explain the protocol and where rewards come from.|Verify|Check contracts, controls, audits, liquidity, fees and independent warnings.|Decide|Consider the worst plausible outcome. There is no obligation to invest."],["0.1.2.1","Read the market|Market trackers show prices, volume and other metrics.|Read the chain|Explorers help verify transaction status, addresses and contracts.|Build evidence|Cross-check claims with independent sources and record unanswered questions."],["0.1.2.1.0","CoinGecko|A market-data service provides token prices and market information.|DeFiLlama|A DeFi analytics service tracks metrics such as total value locked.|Interpret carefully|Metrics can be incomplete or change with prices. High TVL is not proof of safety."],["0.1.2.1.1","Etherscan|A public explorer can show Ethereum transactions, addresses and contracts.|Tokenomics|Study supply, issuance, vesting, distribution and uses.|Verify|Use the correct network and official contract address; names are not unique."],["0.1.2.1.2","Define the question|What is the product, what do I own and what can go wrong?|Check sources|Compare official documents with independent data and risks.|Decide slowly|Wait or walk away if key questions remain unanswered."],["0.1.3","Review|Explain DeFi, wallets, stablecoins, exchanges and lending in your own words.|Check understanding|Answer the knowledge questions and read the explanations.|Next step|Continue to case studies when you understand the basic risks. No investment is required."]];
+    for (const [path, raw] of D4U_BEGINNER_SCENES) {
+      let page = defaultTree;
+      for (const ix of path.split('.').slice(1)) page = page.children[Number(ix)];
+      const a=raw.split('|');
+      const scenes=[0,2,4].map(i=>({title:a[i],text:a[i+1]}));
+      page.d4uVisualScenes=scenes;
+      page.videoEnabled=true;
+      page.summary=scenes[0].text;
+      page.learn=scenes.map(s=>s.title+': '+s.text);
+      page.keyTakeaways=[scenes[2].text];
+      page.bodySections=scenes.map(s=>({heading:s.title,text:s.text}));
+      page.videoScript=scenes.map(s=>s.text).join(' ');
+      page.videoDraftScript=page.videoScript;
+      page.visualIdeas=[];
+      page.compareVideos=[];
+    }
+
+
+    const D4U_STORYBOARD = [["0.0","Meet Alex, a beginner who has heard about crypto but does not know where to start. We'll follow everyday payments into a shared digital ledger, learn how a wallet controls access, then explore trades and loans with imaginary balances. I'm Adam, your guide. Our goal is understanding, not buying anything. Pause whenever you need to, review the story and check your understanding.","Alex at home → bank receipt → network → wallet → safety shield"],["0.1","Alex wants to know why someone would build financial services on a blockchain when banks already exist. We'll answer in three chapters: understand money and wallets, follow simulated trades and loans, and learn to evaluate risk independently. At the end, Alex should be able to describe how a protocol works and how it could fail, without relying on promises of income.","Roadmap: money → blockchain → wallet → exchange and loan → research"],["0.1.0","Alex sends Sam twenty dollars. A bank updates its records, decreasing one balance and increasing the other. What if a network shared the payment record instead? We'll compare these systems, introduce smart contracts and wallets, then see why people use stablecoins to quote familiar prices. These are the foundations of every DeFi activity.","Bank ledger splits into network ledgers; code, key and dollar token appear"],["0.1.0.0","When Alex buys coffee, a payment system moves value and records the purchase. A blockchain records transactions differently: participants agree on shared history under network rules. Some networks run programs called smart contracts. DeFi uses those programs for financial services. Let's follow Alex's money from a familiar payment into a new type of financial application.","Coffee checkout → receipt → replicated ledger → smart contract → exchange"],["0.1.0.0.0","Alex earns one hundred dollars. Twenty goes to groceries, fifty to emergency savings and thirty to a future purchase. Finance is managing money across time. Sam needs a loan, and a bank normally connects savers and borrowers. A DeFi lending program can perform some similar functions using different rules. A new financial mechanism does not remove financial risk.","Split $100 into $20/$50/$30; bank connects Alex and Sam; compare a smart-contract lending pool"],["0.1.0.0.1","Alex and three friends share copies of a payment notebook. When Alex pays Sam ten units, everyone checks and updates their copy. A blockchain groups verified transactions into cryptographically linked blocks. Changing accepted history is difficult because it conflicts with the network's rules and security. But a blockchain cannot prove every claim about the outside world is true.","Four notebooks update; verified blocks link; altered record conflicts with other copies"],["0.1.0.0.2","A vending machine follows a programmed rule when someone pays. Ethereum can run programs called smart contracts that do something similar for blockchain assets. Exchange and lending apps may combine several contracts. Ether, or ETH, pays network fees and helps secure Ethereum. Other networks also support smart contracts. Always check the network you are using.","Vending machine → smart contract → exchange/loan; ETH fee token"],["0.1.0.0.3","Alex wants to exchange one token for another. A traditional exchange may hold the assets and handle the trade. A decentralized exchange can let Alex's wallet interact with a smart contract that applies its pricing rules. Similar contracts can support borrowing and lending. This is DeFi. Control may still be centralized in parts, and bugs, price changes and scams can cause losses.","Split-screen company exchange versus wallet-to-contract-to-pool; risk icons"],["0.1.0.1","Before Alex uses a financial app, we need a wallet. Think of it as a keychain, not a bag of coins: the network records the assets and the keys authorize actions. Some services manage keys for you. Others leave you in control. We'll learn the public address, recovery information and what a website asks when connecting.","Keychain next to shared ledger; public address, locked key and connection request"],["0.1.0.1.0","Sam sends test tokens to Alex's public address. The blockchain records the transfer and Alex's wallet displays the balance. In self-custody, Alex controls the keys; a custodial provider instead manages them. Both involve different risks. Start with a separate practice wallet and test tokens that have no intended monetary value.","Sam transfers test tokens; ledger updates; compare self-custody keys and custodian vault"],["0.1.0.1.1","A public address is like a mailbox address. A private key authorizes actions, while a recovery phrase can regenerate wallet keys. A stranger with recovery information may control your assets. Alex stores it securely offline and never shares it with support or enters it into a website. Losing it may also mean losing access.","Mailbox address; locked key; blank recovery phrase symbols; fake support blocked"],["0.1.0.1.2","Alex opens a verified app and connects a wallet. The app may see the public address and network. A later signature or token approval is a different decision and may grant spending permission. Alex reviews the website, contract, network and requested access. If anything is unclear, Alex cancels; no legitimate connection requires a recovery phrase.","Connect dialog versus approval dialog; inspect amount and permissions; cancel suspicious request"],["0.1.0.1.3","A fake support message promises Alex a free reward, then asks for secret words. Alex closes it and opens the official site independently. Some scams request a harmful signature instead of a phrase. Take time to read requests, verify the source and avoid pressure. Never reveal wallet recovery information.","Fake chat and lookalike URL; red warning; official bookmark and shield"],["0.1.0.2","Alex wants to compare prices in dollars without holding dollars in a bank account. A stablecoin aims to track a reference price, often one dollar. Some rely on reserves, others on collateral or algorithms. Each can fail in different ways. We'll examine what supports the price and what happens when that support breaks.","$1 reference line; reserve vault, collateral and algorithm branches; depeg graph"],["0.1.0.2.0","Alex has ten imaginary dollar stablecoins. At one dollar each they are worth ten dollars. At ninety cents each they are worth nine dollars. Stablecoins make quoting prices convenient, but are not necessarily insured deposits and can lose their peg. Ask what supports the price and how redemption works.","Ten tokens beside $10; graph drops to $0.90; balance becomes $9"],["0.1.0.2.1","Three mechanisms try to keep a token near one dollar: an issuer's reserve assets, crypto collateral in a protocol, or algorithmic incentives. Reserve problems, falling collateral and failed incentives can each break stability. Designs may combine these methods. Alex checks the actual mechanism instead of trusting a label.","Three illustrated machines: reserve vault, collateral pool, supply incentives; stress test each"],["0.1.0.2.2","Alex holds one hundred imaginary stablecoins targeting one dollar. A loss of confidence pushes the market price to ninety cents: the position is worth ninety dollars. Recovery is not assured. Alex checks reserves, liquidity, redemption rights and who controls the token before relying on it.","Peg falls from $1 to $0.90; $100 becomes $90; reserve and redemption checklist"],["0.1.1","Alex understands wallets and stablecoins. Now we'll follow a simulated token exchange, explore the pools that make it possible, compare staking and farming, and then follow a loan. Each activity has a source of potential rewards and a possible loss. We will use imaginary balances, not real deposits.","Wallet → swap → liquidity pool → staking → loan, with risk warnings"],["0.1.1.0","Alex wants to trade ten test tokens. A company-run exchange and a decentralized app settle trades differently. We'll follow a quote, read fees and minimum received, review an approval and check the result. The goal is understanding the transaction before ever using real funds.","Two exchange paths; quote, approval, confirmation and ledger receipt"],["0.1.1.0.0","Alex compares a company-run exchange that may hold customer assets with a decentralized exchange that uses wallet transactions and smart contracts. Neither is inherently safe. Centralized services bring custody and business risks; decentralized services bring contract and wallet risks. Compare control, fees and protections.","Side-by-side custody model and wallet-to-contract model"],["0.1.1.0.1","Alex sees a website that connects to blockchain programs. That is often called a decentralized application, or dApp. The website, data services and admin controls may still have centralized operators. Alex checks what parts actually depend on contracts and who can change them.","Peel apart front end, network, smart contract and admin controls"],["0.1.1.0.2","Alex chooses ten imaginary A tokens to exchange for B tokens. The app displays estimated output, a network fee and a minimum received. Alex verifies the token addresses and permissions, then confirms a test transaction. The network updates balances if it succeeds. If the quote changes too much, the transaction may fail and fees may still apply.","Mock swap: token selection → quote → approval → transaction → before/after balances"],["0.1.1.0.3","Alex expects one hundred B tokens, but sets a minimum of ninety-nine. Gas pays for processing a transaction. Slippage is the difference between the expected and actual execution price, and price impact is the change caused by the trade itself. These are distinct. If the quote looks wrong, Alex cancels rather than blindly increasing tolerance.","Quote 100, minimum 99; separate fee counter; large order moves price gauge"],["0.1.1.1","A market needs assets to trade. Instead of waiting for a particular seller, Alex may trade against a pool containing two tokens. An automated market maker uses rules to calculate the exchange price. Providers supply assets and may receive fees, but their holdings can lose value. Let's watch the pool change.","Two-token tanks connected by a pricing mechanism; balances move as traders exchange"],["0.1.1.1.0","A simple pool holds one hundred A and one hundred B tokens. Alex adds A and receives B under the contract's pricing rule, leaving more A and less B. Liquidity providers supply these assets and may earn fees. Price changes and contract failures can also cause losses.","Pool balances before/after; arrows of A in and B out; provider fee and loss icons"],["0.1.1.1.1","People buy B from a pool. As its B reserve shrinks, the pricing rule may make each remaining B more expensive in A. Different AMMs use different formulas. A large trade relative to pool size can change the price significantly. Alex checks the quoted output rather than assuming the spot price is what will be received.","Reserve bars shift; price gauge changes; small versus large trade"],["0.1.1.2","Alex hears that some protocols pay rewards. Network staking helps support validation, while farming seeks returns from protocol activities such as providing liquidity. Rewards can shrink or lose value, and losses can outweigh them. We will compare these activities by asking what work is being done and who pays.","Validator branch and pool branch; rewards flow, then fees and loss reduce outcome"],["0.1.1.2.0","Validators help check and propose blocks on a proof-of-stake network. They commit assets under network rules and may receive rewards. Some users participate through providers or delegation. Alex checks withdrawal delays, penalties, provider risks and the token's changing price. Not every product called staking supports blockchain validation.","Validator nodes confirm blocks; stake lock, reward and penalty indicators"],["0.1.1.2.1","Alex supplies imaginary assets to a protocol that distributes fees or incentive tokens. Yield farming describes strategies seeking such rewards. A quoted annual rate does not tell Alex the final result: fees, token prices and pool value can change. Even while receiving rewards, Alex may lose money.","Pool deposits; fee and incentive streams; token price falls; net outcome"],["0.1.1.2.2","A new exchange wants more liquidity, so it gives extra tokens to providers. This is often called liquidity mining. The reward comes from an incentive program, not necessarily from trade revenue. If rewards end or lose value, the result changes. Alex examines emissions and withdrawal rules rather than relying on high advertised rates.","Empty pool attracts providers with incentive tokens; reward timer and token price fall"],["0.1.1.2.3","Alex compares holding A and B tokens in a wallet with supplying them to a pool. When A rises in price, traders rebalance the pool, so the provider may hold fewer units of A. The pool position can be worth less than simple holding. This difference is called impermanent loss. Fees may offset it, but not always.","Two portfolios start equal; A rises; pool rebalances; compare value bars and possible fees"],["0.1.1.3","Sam needs to borrow. Alex supplies assets to a lending pool, and Sam pledges collateral. Interest rates and asset prices can change. Borrowers may lose collateral if its value becomes insufficient, and suppliers can face losses too. We'll follow one imaginary loan to see why collateral matters.","Supplier → lending pool → borrower; separate collateral vault and health gauge"],["0.1.1.3.0","Alex supplies one hundred imaginary tokens to a lending protocol. Sam pledges eligible collateral and borrows according to the protocol rules. Interest may accrue. If collateral falls below required thresholds, liquidation can occur. Suppliers also face liquidity, contract and market risk. Automated rules do not guarantee repayment.","Supply tokens; collateral locks; loan transfers; interest and risk gauge"],["0.1.1.3.1","Aave is one example of a DeFi lending protocol. A mock screen shows supported assets, supply rates and borrowing terms. Alex checks available liquidity and Sam checks eligible collateral. Real settings vary and change. Study the official documentation without depositing money; this is an example, not a recommendation.","Illustrative lending dashboard; supply, borrow, liquidity and health factor labels"],["0.1.1.3.2","Sam pledges collateral worth $150 to borrow $75. If the collateral price falls and becomes $90, the debt does not automatically fall with it. The loan becomes riskier and may approach a liquidation threshold. Actual thresholds vary by protocol and asset. Alex understands why monitoring matters.","Collateral $150 versus loan $75; collateral falls to $90; health gauge approaches warning"],["0.1.1.3.3","Sam's position crosses a liquidation threshold. A liquidator may repay part of the debt and receive collateral under the protocol's rules. This can reduce losses but does not guarantee protection. A flash loan is different: it must be repaid within the same transaction or the transaction reverts. Beginners should understand ordinary loan risks first.","Health gauge crosses threshold; debt repaid from collateral; separate atomic flash-loan diagram"],["0.1.1.4","Alex knows how trades and loans work. Now ask who sets the rules and how traditional assets can be represented by tokens. Governance and tokenization introduce organizational and legal questions that software alone cannot solve. We'll explore these ideas and the history that connects them.","Zoom out from protocol to voters, legal claim and DeFi timeline"],["0.1.1.4.0","A protocol wants to change a rule. Some projects use proposals and voting through a decentralized autonomous organization, or DAO. Voting rights and the power to implement changes can be unevenly distributed. Alex checks who holds votes, who can execute upgrades and whether emergency controls exist. A DAO label does not guarantee equal control.","Proposal → voting weights → execution; compare governance and admin keys"],["0.1.1.4.1","A company issues a token linked to a bond. The bond may be held outside the blockchain while the token represents a claim under legal terms. A blockchain can record token transfers, but cannot alone prove that the bond exists or establish enforceable ownership. Alex verifies issuer, custody, legal rights and redemption.","Bond in custody vault; on-chain token; legal link and issuer/redemption checks"],["0.1.1.4.2","Bitcoin popularized a decentralized digital ledger. Ethereum and other networks expanded the idea with programmable contracts. Exchanges, lending pools, stablecoins and governance applications followed. New designs brought new possibilities and new failure modes. Alex learns to judge a mechanism, not simply follow a trend.","Timeline: Bitcoin → programmable networks → exchanges and loans → tokenized assets"],["0.1.2","Alex has learned the mechanisms. Now the most important skill is evaluating them independently. We'll examine phishing messages, contract failures and misleading claims, then use market tools and explorers to investigate evidence. If Alex cannot explain what could go wrong, there is no reason to rush into a financial decision.","Detective Alex checks message, code, market chart and explorer; decision gate"],["0.1.2.0","A polished app can still be unsafe. Alex sees three problems: a phishing link, a bug in a legitimate contract and a reward whose source is unclear. Each calls for different checks. Verify the website, read permissions and investigate code and controls. Sometimes the safest choice is not participating.","Three risks illustrated; checklist for domain, approval, audit and reward source"],["0.1.2.0.0","A message claims Alex must verify a wallet immediately to receive a prize. The link imitates a legitimate service and asks for secret words or a broad approval. Alex closes the page, verifies the official site independently and refuses to share secrets or sign unfamiliar requests. Urgency is a warning sign.","Fake message and countdown; lookalike address; cancel approval and open official site"],["0.1.2.0.1","A lending contract controls a pool of assets. A bug, unsafe upgrade or incorrect price feed could cause losses. An audit reviews defined code and assumptions, not every possible future risk. Alex checks the scope, date, fixes and control permissions. No audit guarantees safety.","Contract bug, price feed and admin key; audit magnifier; remaining risk"],["0.1.2.0.2","Alex sees a high reward offer. Instead of focusing on the number, Alex asks: what is the product, who controls the assets, where do rewards come from, how can I withdraw and what evidence exists? Official documents and independent data may answer some questions. If key answers are missing, Alex waits.","High-rate headline fades; five investigation questions; decision to wait"],["0.1.2.1","Alex wants to check a token claim. Market trackers show prices and activity; blockchain explorers show transaction records and addresses. Neither alone establishes safety. We'll compare data sources, learn what their metrics mean and check official contract addresses.","Claim → market tracker → explorer → official documentation"],["0.1.2.1.0","Alex uses CoinGecko to review prices and trading activity, then DeFiLlama to examine reported total value locked, or TVL. TVL can rise when asset prices rise even if no new assets arrive. Neither metric proves that a product is safe or withdrawals work. Compare methodologies and sources.","Mock price chart and TVL chart; same tokens increase in dollar value; caution labels"],["0.1.2.1.1","Alex enters a transaction hash into the correct explorer, such as Etherscan for Ethereum. It shows status, addresses and on-chain details. Tokenomics describes supply, distribution, issuance and vesting. Names are not unique, so Alex verifies the official contract address. Public data still needs context.","Mock explorer search; status and addresses; token distribution and vesting timeline"],["0.1.2.1.2","Alex writes down four questions before considering a protocol: what do I own, where do rewards come from, how do I exit and what could go wrong? Alex compares official documents with independent evidence. If significant questions remain unanswered, Alex waits. Research helps reveal uncertainty; it cannot eliminate risk.","Research notebook with evidence and unanswered questions; wait decision"],["0.1.3","Alex can now explain DeFi in plain language, distinguish public addresses from recovery information, compare trading and lending, and recognize liquidation and scams. Complete the knowledge check below. If a question is difficult, return to that lesson. No real transaction is required to finish Module One.","Recap map: ledger, wallet, stablecoin, exchange, loan, shield; transition to quiz"]];
+    for (const [path, narration, visual] of D4U_STORYBOARD) {
+      let page=defaultTree;
+      for(const ix of path.split('.').slice(1)) page=page.children[Number(ix)];
+      page.videoScript=narration;
+      page.videoDraftScript=narration;
+      page.d4uStoryboard=visual;
+      page.d4uStoryEdition=true;
+      page.d4uPrimaryVideo='';
+      page.videoCopy='Watch the lesson and review the key idea. No real funds are required.';
+    }
+    defaultTree.children[1].youtubeVideoId='k9HYC0EJU6E';
+    defaultTree.children[1].youtubeTitle='Finematics — What is DeFi? (2020, historical examples)';
+    defaultTree.children[1].children[1].children[0].children[1].youtubeVideoId='pyaIppMhuic';
+    defaultTree.children[1].children[1].children[0].children[1].youtubeTitle='Whiteboard Crypto — Smart contracts (supporting context)';
+
+    const D4U_TREE_VERSION = 21;
     window.__D4U_TREE_VERSION = D4U_TREE_VERSION;
     let tree = deepClone(defaultTree);
     try {
@@ -15879,7 +15939,7 @@ input,textarea,select{background-color:transparent}
         if (st.recent && __valid.has(st.recent)) progressState.recent = st.recent;
         for (const [p, q] of Object.entries(st.quizzes || {})) {
           if (progressState.quizzes[p] || !__valid.has(p) || !q) continue;
-          let quiz = null; try { quiz = (getNodeByPath(p).quiz || []).slice(0, 5); } catch (_) { continue; }
+          let quiz = null; try { quiz = studentQuiz(getNodeByPath(p), p); } catch (_) { continue; }
           if (Number.isInteger(q.score) && q.total === quiz.length && q.score >= 0 && q.score <= q.total) {
             progressState.quizzes[p] = { score: q.score, total: q.total, missed: Array.isArray(q.missed) ? q.missed : [] };
             __moved = true;
@@ -16193,7 +16253,7 @@ input,textarea,select{background-color:transparent}
     }
 
     function renderTree() {
-      document.getElementById('navTree').innerHTML = tree.children.map((node, i) => renderNode(node, `0.${i}`)).join('');
+      document.getElementById('navTree').innerHTML = tree.children.map((node, i) => i === 0 && node.learningLayer === 'utility' ? '' : renderNode(node, `0.${i}`)).join('');
     }
 
     function deepClone(value) {
@@ -16204,8 +16264,13 @@ input,textarea,select{background-color:transparent}
       node.level = level; node.children = node.children || [];
       node.children.forEach(child => syncLevels(child, level + 1));
     }
+    function studentQuiz(node, path) {
+      const questions = node.quiz || [];
+      return path === '0.1.3' ? questions : questions.slice(0, 5);
+    }
+
     function renderQuiz(node) {
-      node = {...node, quiz: (node.quiz || []).slice(0,5)};
+      node = {...node, quiz: studentQuiz(node, currentPath)};
       const panel = document.getElementById('quizPanel');
       const list = document.getElementById('quizList');
       const result = document.getElementById('quizResult');
@@ -16254,7 +16319,7 @@ input,textarea,select{background-color:transparent}
         list.querySelectorAll('.quiz-card').forEach(card => card.classList.add('reviewed'));
         list.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('correct', 'incorrect', 'missed-correct'));
         node.quiz.forEach((q, qi) => {
-          const picked = document.querySelector(`input[name="quiz-${qi}"]:checked`);
+          const picked = list.querySelector(`input[name="quiz-${qi}"]:checked`);
           const value = picked ? Number(picked.value) : -1;
           const ok = value === q.answer;
           if (ok) score += 1; else missed.push(qi);
@@ -16334,6 +16399,7 @@ input,textarea,select{background-color:transparent}
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
 
+      if(window.d4uStopVisual)window.d4uStopVisual();
       currentPath = path;
       const parts = path.split('.');
       let rolling = '0';
@@ -16901,14 +16967,15 @@ input,textarea,select{background-color:transparent}
       for(const [p,v] of Object.entries(data.state.lessons)) {if(!valid.has(p)||v!==true) throw new Error('Invalid lesson entry.');state.lessons[p]=true;}
       if(data.state.recent!=null){if(!valid.has(data.state.recent))throw new Error('Invalid recent lesson.');state.recent=data.state.recent;}
       for(const [p,q] of Object.entries(data.state.quizzes||{})) {
-        if(!valid.has(p))throw new Error('Invalid quiz page.');const quiz=(getNodeByPath(p).quiz||[]).slice(0,5);
-        if(!q || !Number.isInteger(q.score)||q.total!==quiz.length||q.score<0||q.score>q.total||!Array.isArray(q.missed)||q.missed.length!==q.total-q.score||new Set(q.missed).size!==q.missed.length||q.missed.some(i=>!Number.isInteger(i)||i<0||i>=q.total))throw new Error('Invalid quiz result.');
+        if(!valid.has(p))throw new Error('Invalid quiz page.');const quiz=studentQuiz(getNodeByPath(p), p);
+        if(!q || !Number.isInteger(q.score)||(q.total!==quiz.length && !(p==="0.1.3" && q.total===5))||q.score<0||q.score>q.total||!Array.isArray(q.missed)||q.missed.length!==q.total-q.score||new Set(q.missed).size!==q.missed.length||q.missed.some(i=>!Number.isInteger(i)||i<0||i>=q.total))throw new Error('Invalid quiz result.');
         state.quizzes[p]={score:q.score,total:q.total,missed:q.missed};
       }
       return state;
     }
     function showHome() {
-      document.body.classList.remove('landing-video-mode');
+      if(window.d4uStopVisual)window.d4uStopVisual();
+      document.body.classList.remove('landing-video-mode','d4u-visual-lesson');
       updateSidebarStats();
       document.body.classList.add('academy-home');
       document.getElementById('lessonView').hidden=true;document.getElementById('academyHome').hidden=false;
@@ -17069,7 +17136,7 @@ input,textarea,select{background-color:transparent}
         set(document.querySelector('.academy-footer'), on('footer'));
       })(); } catch (_) {}
       card.onclick=null;
-      const linked=!!(node.youtubeVideoId||node.vimeoVideoId);
+      const linked=node.videoEnabled!==false && !!(node.youtubeVideoId||node.vimeoVideoId);
       const hasScript=node.videoScript&&String(node.videoScript).trim().length>30;
       if(hasScript && node.audioEnabled!==false){
         document.getElementById('videoTitle').textContent='DeFi 4U Coach — audio lesson';
@@ -17078,8 +17145,10 @@ input,textarea,select{background-color:transparent}
         document.getElementById('videoTitle').textContent=node.title+' — Introduction';
         document.getElementById('videoCopy').textContent='The introduction video will appear here when its link is added.';
       }
+      document.querySelector('#lessonView .video-body').hidden=!(linked || (node.audioEnabled!==false && (hasScript || node.attachedAudio || (window.__coachAudio||{})[path])));
       if(window.d4uSyncCoach)window.d4uSyncCoach();
-      if(!landing){document.querySelector('#lessonView .video-body').hidden=(node.videoEnabled===false)&&!(node.audioEnabled!==false&&hasScript);document.querySelector('#lessonView .right-rail .rail-card h3').textContent='Your Progress';return;}
+      if(window.d4uRenderVisual)window.d4uRenderVisual(node,path);
+      if(!landing){document.querySelector('#lessonView .right-rail .rail-card h3').textContent='Your Progress';return;}
 
       alignLandingRail();
       const progressCard=document.querySelector('#lessonView .right-rail .rail-card');
@@ -17088,7 +17157,7 @@ input,textarea,select{background-color:transparent}
       document.getElementById('railProgressPercent').textContent=stats.percent+'%';
       document.getElementById('railProgressMeta').textContent=`${stats.completed} of ${stats.total} main learning steps complete`;
       document.getElementById('railProgressFill').style.width=stats.percent+'%';
-      document.querySelector('#lessonView .video-body').hidden=(node&&node.videoEnabled===false)?!(((node&&node.videoScript)||'').trim().length>30):!(linked?(((node&&node.videoScript)||'').trim().length>30):true);
+      // Media visibility is synchronized above for both landing and lesson pages.
     }
     function renderCompactBreadcrumb(path) {
       const bar=document.querySelector('.compact-navigation');if(!bar)return;
@@ -17338,6 +17407,7 @@ input,textarea,select{background-color:transparent}
     btn.onclick = () => {
       if (ttsOn) { stopAll(); ttsState(false); return; }
       const node = (typeof getNodeByPath === 'function') ? getNodeByPath(currentPath) : null;
+      if(node && node.d4uVisualScenes && !node.attachedAudio){ if(typeof announce==='function')announce('Adam narration is not yet available for this lesson. Use the visual explainer and captions.'); return; }
       const text = (node && node.videoScript) || '';
       const audioSrc = (node && node.attachedAudio) ? node.attachedAudio : (window.__coachAudio ? window.__coachAudio[currentPath] : null);
       if (audioSrc) {
@@ -17376,8 +17446,9 @@ if (audioBtn) audioBtn.onclick = btn.onclick;
     const audioOn = !node || node.audioEnabled !== false;
     if (ttsOn) { stopAll(); ttsState(false); }
     const vb = document.querySelector('#lessonView .video-body');
-    btn.hidden = !hasScript || !audioOn || (vb && vb.hidden);
-    if (audioBtn) audioBtn.hidden = !hasScript || !audioOn;
+    const readyAudio = !!(node && node.attachedAudio);
+    btn.hidden = !hasScript || !audioOn || (vb && vb.hidden) || (!!(node&&node.d4uVisualScenes)&&!readyAudio);
+    if (audioBtn) audioBtn.hidden = !hasScript || !audioOn || (!!(node&&node.d4uVisualScenes)&&!readyAudio);
     var tsBtn = document.getElementById('d4uTranscriptBtn');
     if (tsBtn) { tsBtn.hidden = !hasScript || !audioOn; tsBtn.classList.remove('active'); }
     refreshLabel();
@@ -17490,7 +17561,7 @@ if (audioBtn) audioBtn.onclick = btn.onclick;
     <span id="d4u5Dirty">✓ Saved</span>
     <span class="d4u5-grow"></span>
     <button type="button" class="d4u5-ghost" data-act="revert">Revert</button>
-    <button type="button" class="d4u5-save" data-act="save">💾 Save &amp; Publish</button>
+    <button type="button" class="d4u5-save" data-act="save">💾 Save locally</button>
   </footer>
 </div>
 <div class="d4u5-pill" id="d4u5ExitPreview" hidden>
@@ -17701,7 +17772,7 @@ function mediaDetailHTML(){
   h+='<p class="d4u5-see" id="d4u5See">'+esc(seeLine(n))+'</p>';
   h+='<section class="d4u5-fs"><h3>🎬 Video Script <small>for producing this section\u2019s video later</small></h3>'
     +'<textarea class="d4u5-ta" data-f="videoDraftScript" rows="4" placeholder="Paste or write the script for this section\u2019s future video\u2026">'+esc(vd)+'</textarea>'
-    +'<div class="d4u5-meta"><span id="d4u5VCount">'+vd.length+' chars</span> · independent from the audio script · saved with Save &amp; Publish</div></section>';
+    +'<div class="d4u5-meta"><span id="d4u5VCount">'+vd.length+' chars</span> · independent from the audio script · saved in this browser</div></section>';
   h+='<section class="d4u5-fs"><h3>🗣️ Audio / Voiceover Script <span class="tag '+(aud[0]==='recorded'||aud[0]==='attached'?'ok':'dim')+'">'+aud[1]+'</span></h3>'
     +'<textarea class="d4u5-ta" data-f="videoScript" rows="6" placeholder="Write the exact text that should be read aloud\u2026">'+esc(as)+'</textarea>'
     +'<div class="d4u5-meta"><span id="d4u5ACount">'+as.length+' chars</span> · when no MP3 exists, this text is read by the device voice (TTS)</div>'
@@ -17817,7 +17888,7 @@ function settingsHTML(){
     +'<section><h3>ℹ️ About this system</h3>'
     +'<p><b>One source of truth.</b> Admin edits are saved into the same content tree the Student view reads. Press <b>Preview as Student</b> anytime to see exactly what students see.</p>'
     +'<p><b>Media rules.</b> Video OFF hides the video window. Audio OFF hides the audio buttons and the transcript. Both OFF leaves a clean lesson page.</p>'
-    +'<p class="d4u5-meta">'+pages+' pages · app version 6.19 · content size '+kb+' KB · '+attachCount+' attached MP3(s) · reload the file to return to this Welcome screen.</p>'
+    +'<p class="d4u5-meta">'+pages+' pages · app version 6.20 · content size '+kb+' KB · '+attachCount+' attached MP3(s) · reload the file to return to this Welcome screen.</p>'
     +'</section></div>';
 }
 
@@ -17826,7 +17897,7 @@ function saveNow(){
   try{ persistTree(); }catch(e){ notice('Could not save — browser storage is full. Remove a large attached MP3 and try again.'); return; }
   try{ savedSnapshot=clone(tree); }catch(e){}
   dirty=false; updateSaveBar(); refreshList(); applyTree();
-  notice('✓ Saved — the Student view now shows your changes.');
+  notice('✓ Saved in this browser — export a backup for a GitHub update.');
 }
 function revertAll(){
   if(!savedSnapshot){ notice('Nothing to revert yet.'); return; }
@@ -17850,9 +17921,9 @@ function previewAudio(){
 }
 function attachAudioFile(file){
   if(!file) return;
-  if(file.size > 2*1024*1024){ notice('That MP3 is too large (max 2 MB) — the course file already includes the 27 studio recordings.'); return; }
-  var r=new FileReader();
-  r.onload=function(){ var n=nodeAt(selPath); if(!n) return; n.attachedAudio=String(r.result); dirty=true; updateSaveBar(); renderBody(); notice('📎 MP3 attached — press Save & Publish to apply it.'); };
+  if(file.size > 2*1024*1024){ notice('That MP3 is too large for the local editor (max 2 MB).'); return; }
+  var targetPath=selPath; var r=new FileReader();
+  r.onload=function(){ var n=nodeAt(targetPath); if(!n) return; n.attachedAudio=String(r.result); dirty=true; updateSaveBar(); renderBody(); notice('📎 MP3 attached — press Save locally to apply it in this browser.'); };
   r.onerror=function(){ notice('Could not read that file.'); };
   r.readAsDataURL(file);
 }
@@ -17937,7 +18008,7 @@ $('d4u5Admin').addEventListener('click', function(ev){
   else if(act==='addQuiz'){ n.quiz=n.quiz||[]; n.quiz.push({question:'New question',options:['Option 1','Option 2','Option 3','Option 4'],answer:0,explanation:''}); dirty=true; renderBody(); }
   else if(act==='rmQuiz'){ if(n&&n.quiz){ n.quiz.splice(i,1); dirty=true; renderBody(); } }
   else if(act==='addOpt'){ if(n&&n.quiz&&n.quiz[i]){ n.quiz[i].options.push('New option'); dirty=true; renderBody(); } }
-  else if(act==='rmOpt'){ if(n&&n.quiz&&n.quiz[i]&&n.quiz[i].options.length>2){ n.quiz[i].options.splice(j,1); if(n.quiz[i].answer>=n.quiz[i].options.length) n.quiz[i].answer=0; dirty=true; renderBody(); } }
+  else if(act==='rmOpt'){ if(n&&n.quiz&&n.quiz[i]&&n.quiz[i].options.length>2){ if(j===n.quiz[i].answer){ notice('Select another correct answer before removing this option.'); return; } n.quiz[i].options.splice(j,1); if(j<n.quiz[i].answer) n.quiz[i].answer--; dirty=true; renderBody(); } }
 });
 
 /* ---------- shared field applier (used by input AND change events) ---------- */
@@ -17990,7 +18061,7 @@ $('d4u5Admin').addEventListener('change', function(ev){
     try{ persistTree(); savedSnapshot=clone(tree); }catch(e){ notice('Could not save that change.'); return; }
     dirty=false; updateSaveBar(); applyTree(); refreshList();
     if(sp===selPath){ var det=$('d4u5Detail'); if(det) det.innerHTML=(tab==='content')?contentDetailHTML():mediaDetailHTML(); }
-    notice('✓ Switch applied — students see it now.');
+    notice('✓ Switch applied to this browser’s preview.');
     return;
   }
   var wk=el.getAttribute('data-win');
@@ -18098,4 +18169,240 @@ $('d4u5Admin').addEventListener('change', function(ev){
 })();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+
+
+<script id="d4u-beginner-player">
+(function(){
+ const practice = {
+  "0.0": [
+    "Quick Start",
+    "You have no wallet and own no crypto. What do you need to buy before you can begin?",
+    "Nothing. Use the fictional balances in this course. Start with DeFi Foundations, follow Alex through a swap and loan, then finish with the safety exercises."
+  ],
+  "0.1": [
+    "Your first practice transfer",
+    "Sam requests 2 practice tokens on Testnet A. The preview says 2 tokens on Network B. The address looks identical. Would you confirm?",
+    "Cancel. Match the asset, receiving address and network. The same address can exist on different networks with separate balances. In a real practice session, use a separate test wallet, review the fee, then look up the transaction hash on the matching testnet explorer."
+  ],
+  "0.1.0.0.0": [
+    "A monthly budget",
+    "Alex has $100 today, owes $60 tomorrow and wants to lend $70 for a month. What would the loan leave for tomorrow?",
+    "Only $30. Even if the loan pays interest later, Alex would be $30 short when the bill arrives. Timing matters as much as the total balance."
+  ],
+  "0.1.0.0.1": [
+    "Read a payment record",
+    "An explorer shows a successful transfer to an address. Does this prove that the seller shipped the coffee?",
+    "It confirms the recorded transfer. Shipping is an event outside the ledger and needs separate evidence."
+  ],
+  "0.1.0.0.2": [
+    "A fee in a different asset",
+    "Alex has a dollar token on Ethereum and no ETH. Why might a standard transfer fail before it starts?",
+    "An ordinary Ethereum transaction needs ETH for gas. The token balance and the balance available for the network fee are different."
+  ],
+  "0.1.0.0.3": [
+    "Follow one swap",
+    "A shop quotes Alex 9 blue tokens for 10 orange ones. In a DeFi swap, who applies the exchange rule and what does Alex check?",
+    "The exchange contract applies its rules. Before signing, Alex checks the network, token identities, spending permission, fee and minimum output. The app supplies the screen and the wallet authorizes the action."
+  ],
+  "0.1.0.1.0": [
+    "Receive a test payment",
+    "Sam asks for a public address and network. Which wallet details can Alex give Sam?",
+    "The intended receiving address and network. Sam can send without knowing the private key or recovery phrase."
+  ],
+  "0.1.0.1.1": [
+    "Lost phone",
+    "Alex loses a phone. A stranger offers to restore the wallet if Alex reads out the recovery words. What should Alex do?",
+    "Decline. Those words can recreate the keys. Use the wallet provider’s official recovery instructions independently and enter recovery information only in a trusted recovery process."
+  ],
+  "0.1.0.1.2": [
+    "Read the permission",
+    "A swap needs 10 tokens. The approval asks for unlimited spending. Does clicking Disconnect later cancel that approval?",
+    "Usually no. Disconnecting removes the website connection. An on-chain allowance can persist until it is changed or revoked. Decline a request you cannot explain."
+  ],
+  "0.1.0.1.3": [
+    "Two similar websites",
+    "A search ad resembles the wallet website and offers an urgent update. How can Alex check it?",
+    "Close the ad and independently open the verified address. Inspect the exact domain and the wallet request. Familiar branding alone proves little."
+  ],
+  "0.1.0.2.0": [
+    "Price a balance",
+    "Alex holds 40 tokens targeting $1. At a market price of $0.95, what are they worth before fees?",
+    "40 × $0.95 = $38. A target price is a design goal. The amount a trader can actually receive depends on the market."
+  ],
+  "0.1.0.2.1": [
+    "Trace the backing",
+    "One issuer holds reserves. Another protocol locks crypto worth more than the tokens it issues. What evidence would you seek for each?",
+    "For reserves, check the assets, reporting date and redemption terms. For crypto collateral, check its value, price feeds and liquidation rules."
+  ],
+  "0.1.0.2.2": [
+    "Selling versus redeeming",
+    "A token trades for $0.97. Its issuer says eligible customers can redeem for $1. Can Alex assume a $1 exit?",
+    "No. Alex must check eligibility, minimums, delays and fees. A market sale uses the available price and liquidity."
+  ],
+  "0.1.1.0.0": [
+    "Who controls withdrawal?",
+    "One platform must approve Alex’s withdrawal. Another asks Alex to sign a contract call from a wallet. Where is control concentrated?",
+    "The first platform controls custody and withdrawals. In the second case Alex controls the signature, while contract rules, upgrade powers and the interface still matter."
+  ],
+  "0.1.1.0.1": [
+    "When a website is offline",
+    "A dApp’s website goes offline. Does that alone prove its contract stopped running?",
+    "No. The interface and contract are separate. Check the network and verified contract records before drawing a conclusion."
+  ],
+  "0.1.1.0.2": [
+    "Follow a bridge quote",
+    "A bridge offers to move a token from Network A to B. Is this the same as swapping two tokens on A?",
+    "No. A bridge transfers value or a representation across networks. Verify the official bridge, both networks, token contracts, amount, fees and what asset arrives. A bridge adds its own contract or operator risks."
+  ],
+  "0.1.1.0.3": [
+    "Minimum received",
+    "The estimate is 100 B, the minimum is 99 B, and execution would deliver 98.5 B. What happens if the contract enforces the minimum?",
+    "The swap reverts. A submitted transaction may still consume gas. The minimum protects the output under the contract’s rules."
+  ],
+  "0.1.1.1.0": [
+    "Read the reserves",
+    "A trader sends A into a two-token pool and takes B out. Before fees, which reserve increased?",
+    "The A reserve increased and the B reserve decreased. Liquidity providers now own a share of a different mix."
+  ],
+  "0.1.1.1.1": [
+    "Price a pool trade",
+    "A simplified pool keeps A × B = 10,000 and starts at 100 A and 100 B. Add 25 A. Ignoring fees, how much B leaves?",
+    "125 A requires 80 B to keep the product at 10,000. The trader receives 20 B. The initial one-to-one reserve ratio did not promise 25 B."
+  ],
+  "0.1.1.2.0": [
+    "Mining or staking?",
+    "One network uses miners doing computational work. Another requires validators to commit assets. Which is staking?",
+    "The second uses proof of stake. Proof-of-work mining uses computing power. Liquidity mining is a different term for protocol incentives."
+  ],
+  "0.1.1.2.1": [
+    "Compare APR and APY",
+    "Start with 100 units at a hypothetical 10% annual simple rate. What changes if interest is credited and reinvested twice a year?",
+    "Without compounding the balance is 110. With two 5% periods it is 100 × 1.05 × 1.05 = 110.25. APY includes compounding assumptions. Actual rates, prices and fees can change."
+  ],
+  "0.1.1.2.2": [
+    "Trace the reward",
+    "A pool pays 20 new tokens and the token price falls from $1 to $0.25 before exit. What are the rewards now worth?",
+    "$5 before costs. Token emissions distribute tokens. They do not create a fixed dollar return."
+  ],
+  "0.1.1.2.3": [
+    "Choose the comparison",
+    "After prices change, Alex’s pool share is worth $108 with fees. Holding the original assets would have been worth $115. Which did better?",
+    "Holding did better by $7. A pool position can rise in dollar terms and still underperform the original mix."
+  ],
+  "0.1.1.3.0": [
+    "A supplier wants to exit",
+    "Alex supplied 100 tokens. Many tokens are currently borrowed. Can an account balance alone prove immediate withdrawal is possible?",
+    "No. Check available liquidity and the protocol’s withdrawal rules. Accrued interest and cash available now answer different questions."
+  ],
+  "0.1.1.3.1": [
+    "Read a lending market",
+    "Two screens show different supply rates for the same token. What would you compare before interpreting them?",
+    "Compare the network, protocol version, market, time of observation, incentive tokens and whether the quote is APR or APY. A rate is a snapshot."
+  ],
+  "0.1.1.3.2": [
+    "Measure a loan",
+    "Sam owes $75 against $150 of collateral. The collateral drops to $90. How does the debt-to-collateral ratio change?",
+    "It rises from 50% to about 83%. The debt stayed the same. Whether liquidation occurs depends on this market’s threshold."
+  ],
+  "0.1.1.3.3": [
+    "Two different loan rules",
+    "A loan must be borrowed and repaid within a single transaction. What happens if the final repayment condition fails?",
+    "The transaction reverts under the flash-loan contract. An ordinary collateralized loan can last across transactions and can be liquidated later."
+  ],
+  "0.1.1.4.0": [
+    "Count the voting power",
+    "Three addresses vote yes and one votes no. Does that settle a token-weighted vote?",
+    "You need the voting weights, quorum and decision rules. Also check who can execute the approved change."
+  ],
+  "0.1.1.4.1": [
+    "Identify the claim",
+    "A token is advertised as backed by a warehouse. What would establish whether Alex owns a share, has a debt claim or has neither?",
+    "Read the issuing documents, ownership records, custody arrangements and redemption terms. A token transfer alone cannot answer that question."
+  ],
+  "0.1.1.4.2": [
+    "Compare two systems",
+    "A new app calls itself decentralized but one operator can change withdrawal rules. Which question matters more than its launch date?",
+    "Who can change the rules, how much notice users get and whether they can exit before a change takes effect."
+  ],
+  "0.1.2.0.0": [
+    "A support direct message",
+    "A stranger offers a refund if Alex signs an unreadable message. No recovery words are requested. Is signing safe?",
+    "Decline. A signature can authorize rights or trades even when nobody asks for secret words. Verify the request through an independent channel."
+  ],
+  "0.1.2.0.1": [
+    "A bad price feed",
+    "A lending contract receives yesterday’s collateral price through an oracle. Why can correct contract code still produce a bad outcome?",
+    "An oracle supplies outside data to the contract. A stale or manipulated price can trigger an incorrect loan or liquidation decision even when the code follows its rules."
+  ],
+  "0.1.2.0.2": [
+    "A claim about an audit",
+    "A site advertises an audit from last year. The contract was upgraded yesterday. What would you check?",
+    "Match the report’s scope and reviewed version to the deployed code, then check whether findings were fixed and who controls upgrades."
+  ],
+  "0.1.2.1.0": [
+    "Interpret TVL",
+    "A pool holds 100 tokens. Their price rises from $2 to $3 with no deposits. What happens to dollar-denominated total value locked?",
+    "It rises from $200 to $300. Rising TVL alone does not prove that more users or tokens arrived."
+  ],
+  "0.1.2.1.1": [
+    "Read a supply schedule",
+    "A project starts with 100 circulating tokens, releases 20 more and burns 5 circulating tokens. Where does circulation end?",
+    "At 115, assuming nothing else changes. A burn permanently removes tokens. An unlock can add existing tokens to circulation, while minting creates new tokens. A burn alone cannot predict price."
+  ],
+  "0.1.2.1.2": [
+    "Write a research note",
+    "A project claims a steady return but gives no source of revenue or exit terms. What belongs in Alex’s conclusion?",
+    "Record the claim, its source and date, the missing evidence, who controls withdrawals and how losses could occur. An unanswered question is a valid research result."
+  ],
+  "0.1.3": [
+    "Before the knowledge check",
+    "Teach a friend how to review a swap, what can liquidate a loan and why a token reward may lose value. Where would you look if one is unclear?",
+    "Revisit Gas & Slippage, Borrowing & Collateral, or Liquidity Mining. Then answer all 18 questions and read the feedback for each answer."
+  ]
+};
+ let player=null;
+ window.d4uStopVisual=function(){if(player){const v=player.querySelector('video');if(v){v.pause();v.removeAttribute('src');v.load()}player.remove();player=null}};
+ window.d4uRenderVisual=function(node,path){
+   window.d4uStopVisual();
+   const enabled=!!(node&&node.d4uStoryEdition&&node.videoEnabled!==false);
+   document.body.classList.toggle('d4u-visual-lesson',enabled);
+   if(!enabled)return;
+   const wrap=document.querySelector('#lessonView .video-window');if(!wrap)return;
+   const hasVideo=typeof node.d4uPrimaryVideo==='string'&&node.d4uPrimaryVideo.trim()!=='';
+   const hasEmbed=!!(node.youtubeVideoId||node.vimeoVideoId)&&location.protocol!=='file:';
+   player=document.createElement('div');player.className='d4u-story-player';
+   const heading=document.getElementById('videoTitle');
+   heading.textContent=node.title;
+   document.getElementById('videoCopy').textContent=hasVideo?'Watch the lesson, then try the example.':'Read the lesson, then work through the example.';
+   if(hasVideo){
+     const video=document.createElement('video');
+     video.controls=true; video.playsInline=true; video.preload='metadata';
+     video.src=node.d4uPrimaryVideo;
+     video.setAttribute('aria-label',node.title);
+     player.append(video);
+   }
+   const story=document.createElement('p');
+   story.textContent=node.videoScript;
+   player.append(story);
+   const example=practice[path];
+   if(example){
+     const title=document.createElement('h3');
+     title.textContent=example[0];
+     const question=document.createElement('p');
+     question.textContent=example[1];
+     const solution=document.createElement('details');
+     const toggle=document.createElement('summary');
+     toggle.textContent='Check your reasoning';
+     const answer=document.createElement('p');
+     answer.textContent=example[2];
+     solution.append(toggle,answer);
+     player.append(title,question,solution);
+   }
+   const toolbar=wrap.querySelector('.video-toolbar');if(toolbar)toolbar.insertAdjacentElement('afterend',player);else wrap.prepend(player);
+   const externalLabel=document.getElementById('externalVideoLabel');if(externalLabel&&externalLabel.style.display!=='none')externalLabel.textContent=hasEmbed?'Supporting video · '+(node.youtubeTitle||node.vimeoTitle||'Original creator'):'';
+   if(!hasEmbed){const external=document.getElementById('externalVideoWrap');if(external)external.style.display='none';if(externalLabel)externalLabel.style.display='none'}
+   const panel=document.getElementById('coachScriptPanel');if(panel){panel.style.display='block';panel.open=false;const summary=panel.querySelector('summary');if(summary)summary.textContent='Read the lesson transcript';}
+ };
+})();
+</script>
 </body></html>
