@@ -18183,6 +18183,14 @@ $('d4u5Admin').addEventListener('change', function(ev){
 
 <script id="d4u-beginner-player">
 (function(){
+ const academyFilms = {
+  "0.1.0.0.3": "media/01-defi.mp4",
+  "0.1.0.1.0": "media/02-wallet.mp4",
+  "0.1.0.2.0": "media/03-tokens.mp4",
+  "0.1.1.0.2": "media/04-swaps.mp4",
+  "0.1.1.2": "media/05-rewards.mp4",
+  "0.1.2.0": "media/06-safety.mp4"
+};
  const practice = {
   "0.0": [
     "Quick Start",
@@ -18378,7 +18386,8 @@ $('d4u5Admin').addEventListener('change', function(ev){
    document.body.classList.toggle('d4u-visual-lesson',enabled);
    if(!enabled)return;
    const wrap=document.querySelector('#lessonView .video-window');if(!wrap)return;
-   const hasVideo=typeof node.d4uPrimaryVideo==='string'&&node.d4uPrimaryVideo.trim()!=='';
+   const videoSource=node.d4uPrimaryVideo || academyFilms[path];
+   const hasVideo=Boolean(videoSource);
    const hasEmbed=!!(node.youtubeVideoId||node.vimeoVideoId)&&location.protocol!=='file:';
    player=document.createElement('div');player.className='d4u-story-player';
    const heading=document.getElementById('videoTitle');
@@ -18387,7 +18396,8 @@ $('d4u5Admin').addEventListener('change', function(ev){
    if(hasVideo){
      const video=document.createElement('video');
      video.controls=true; video.playsInline=true; video.preload='metadata';
-     video.src=node.d4uPrimaryVideo;
+     video.src=videoSource;
+     if (videoSource === academyFilms[path]) video.poster=videoSource.replace(/\.mp4$/, '.jpg');
      video.setAttribute('aria-label',node.title);
      player.append(video);
    }
